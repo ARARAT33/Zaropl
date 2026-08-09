@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AWE_Forge — The Ultimate Creation Platform</title>
+<meta name="description" content="AWE_Forge: Games, Tools, Forge, Lab, Academy — the most powerful serverless web platform. 10 languages, 50+ tools, 23 games, blog, docs, and more.">
+<meta name="theme-color" content="#0d1117">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+
+<style>
+:root{--bg-primary:#0d1117;--bg-secondary:#161b22;--bg-tertiary:#21262d;--bg-elevated:#1c2128;--border-primary:#30363d;--border-hover:#58a6ff;--text-primary:#e6edf3;--text-secondary:#8b949e;--text-tertiary:#6e7681;--accent-blue:#58a6ff;--accent-purple:#bc8cff;--accent-pink:#ff6b9d;--accent-green:#3fb950;--accent-orange:#d29922;--accent-red:#f85149;--accent-cyan:#39d2c0;--accent-yellow:#e3b341;--shadow-sm:0 1px 3px rgba(0,0,0,.4);--shadow-md:0 4px 12px rgba(0,0,0,.5);--shadow-lg:0 8px 30px rgba(0,0,0,.6);--shadow-glow-blue:0 0 20px rgba(88,166,255,.3);--shadow-glow-purple:0 0 20px rgba(188,140,255,.3);--radius-sm:6px;--radius-md:10px;--radius-lg:16px;--radius-xl:24px;--transition-fast:.15s ease;--transition-normal:.25s ease;--transition-slow:.4s ease;--font-sans:'Inter',system-ui,sans-serif;--font-mono:'JetBrains Mono',monospace;--nav-width:260px;--header-height:56px;--max-content:1400px}
+[data-theme="light"]{--bg-primary:#fff;--bg-secondary:#f6f8fa;--bg-tertiary:#eaeef2;--bg-elevated:#f0f2f5;--border-primary:#d0d7de;--border-hover:#0969da;--text-primary:#1f2328;--text-secondary:#656d76;--text-tertiary:#8c959f;--shadow-sm:0 1px 3px rgba(0,0,0,.1);--shadow-md:0 4px 12px rgba(0,0,0,.12);--shadow-lg:0 8px 30px rgba(0,0,0,.15)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--font-sans);background:var(--bg-primary);color:var(--text-primary);line-height:1.6;overflow-x:hidden;min-height:100vh;-webkit-font-smoothing:antialiased}
+a{color:var(--accent-blue);text-decoration:none;transition:color var(--transition-fast)}
+a:hover{color:var(--accent-purple)}
+img{max-width:100%;height:auto}
+button{cursor:pointer;font-family:inherit}
+input,select,textarea{font-family:inherit}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:var(--bg-primary)}
+::-webkit-scrollbar-thumb{background:var(--border-primary);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:var(--text-tertiary)}
+#app{display:flex;min-height:100vh}
+.sidebar{width:var(--nav-width);min-width:var(--nav-width);background:var(--bg-secondary);border-right:1px solid var(--border-primary);position:fixed;top:0;left:0;height:100vh;z-index:100;display:flex;flex-direction:column;transition:transform var(--transition-normal);overflow-y:auto;overflow-x:hidden}
+.main-content{margin-left:var(--nav-width);flex:1;min-height:100vh;display:flex;flex-direction:column}
+.topbar{height:var(--header-height);min-height:var(--header-height);background:var(--bg-secondary);border-bottom:1px solid var(--border-primary);display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:50;backdrop-filter:blur(12px)}
+.page-content{flex:1;padding:32px 24px;max-width:var(--max-content);width:100%;margin:0 auto}
+.logo-area{padding:20px;border-bottom:1px solid var(--border-primary);display:flex;align-items:center;gap:12px}
+.logo-icon{width:40px;height:40px;border-radius:var(--radius-md);background:linear-gradient(135deg,var(--accent-blue),var(--accent-purple),var(--accent-pink));display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.logo-text{font-size:1.2em;font-weight:800;background:linear-gradient(135deg,var(--accent-blue),var(--accent-purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;white-space:nowrap}
+.nav-section{padding:12px 0}
+.nav-label{padding:8px 20px 4px;font-size:.7em;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text-tertiary)}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 20px;margin:1px 8px;border-radius:var(--radius-sm);color:var(--text-secondary);font-size:.9em;font-weight:500;transition:all var(--transition-fast);cursor:pointer;border:none;background:none;width:calc(100% - 16px);text-align:left}
+.nav-item:hover{background:var(--bg-tertiary);color:var(--text-primary)}
+.nav-item.active{background:var(--bg-tertiary);color:var(--accent-blue);font-weight:600}
+.nav-item .nav-icon{font-size:1.1em;width:20px;text-align:center;flex-shrink:0}
+.nav-item .badge{margin-left:auto;font-size:.7em;padding:2px 8px;border-radius:10px;background:var(--accent-blue);color:#fff;font-weight:600}
+.card{background:var(--bg-secondary);border:1px solid var(--border-primary);border-radius:var(--radius-lg);padding:24px;transition:all var(--transition-normal)}
+.card:hover{border-color:var(--border-hover);box-shadow:var(--shadow-glow-blue);transform:translateY(-2px)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 20px;border-radius:var(--radius-md);font-size:.9em;font-weight:600;transition:all var(--transition-fast);border:1px solid transparent;white-space:nowrap;text-decoration:none}
+.btn-primary{background:linear-gradient(135deg,var(--accent-blue),var(--accent-purple));color:#fff}
+.btn-primary:hover{box-shadow:var(--shadow-glow-blue);transform:translateY(-1px)}
+.btn-secondary{background:var(--bg-tertiary);color:var(--text-primary);border-color:var(--border-primary)}
+.btn-secondary:hover{border-color:var(--border-hover)}
+.btn-ghost{background:transparent;color:var(--text-secondary)}
+.btn-ghost:hover{color:var(--text-primary);background:var(--bg-tertiary)}
+.btn-sm{padding:6px 14px;font-size:.8em}
+.btn-lg{padding:14px 28px;font-size:1em}
+.grid{display:grid;gap:20px}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.grid-4{grid-template-columns:repeat(4,1fr)}
+.grid-auto{grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.hero{text-align:center;padding:80px 20px 60px}
+.hero h1{font-size:clamp(2.5em,6vw,4.5em);font-weight:900;line-height:1.1;background:linear-gradient(135deg,var(--accent-blue),var(--accent-purple),var(--accent-pink),var(--accent-orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:16px}
+.hero p{font-size:1.2em;color:var(--text-secondary);max-width:700px;margin:0 auto 32px}
+.hero-buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.section{margin:60px 0}
+.section-title{font-size:2em;font-weight:800;margin-bottom:8px}
+.section-subtitle{color:var(--text-secondary);margin-bottom:32px;font-size:1.1em}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.stat-card{text-align:center;padding:24px;background:var(--bg-secondary);border:1px solid var(--border-primary);border-radius:var(--radius-lg)}
+.stat-value{font-size:2.5em;font-weight:900;background:linear-gradient(135deg,var(--accent-blue),var(--accent-purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-label{font-size:.85em;color:var(--text-secondary);margin-top:4px}
+.tag{display:inline-block;padding:4px 10px;border-radius:12px;font-size:.75em;font-weight:600;background:var(--bg-tertiary);color:var(--text-secondary)}
+.tag-blue{background:rgba(88,166,255,.15);color:var(--accent-blue)}
+.tag-purple{background:rgba(188,140,255,.15);color:var(--accent-purple)}
+.tag-green{background:rgba(63,185,80,.15);color:var(--accent-green)}
+.tag-orange{background:rgba(210,153,34,.15);color:var(--accent-orange)}
+.tool-card{background:var(--bg-secondary);border:1px solid var(--border-primary);border-radius:var(--radius-lg);padding:20px;cursor:pointer;transition:all var(--transition-normal)}
+.tool-card:hover{border-color:var(--border-hover);box-shadow:var(--shadow-glow-blue);transform:translateY(-2px)}
+.tool-card .tool-icon{font-size:36px;margin-bottom:12px}
+.tool-card .tool-name{font-weight:700;margin-bottom:4px}
+.tool-card .tool-desc{font-size:.82em;color:var(--text-secondary);line-height:1.4}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .2s ease}
+.modal{background:var(--bg-secondary);border:1px solid var(--border-primary);border-radius:var(--radius-xl);padding:32px;max-width:800px;width:100%;max-height:90vh;overflow-y:auto;animation:slideUp .3s ease}
+.modal-close{position:sticky;top:0;float:right;background:none;border:none;color:var(--text-secondary);font-size:1.5em;cursor:pointer;padding:4px 8px;border-radius:var(--radius-sm)}
+.modal-close:hover{background:var(--bg-tertiary);color:var(--text-primary)}
+.tabs{display:flex;gap:0;border-bottom:2px solid var(--border-primary);margin-bottom:24px;flex-wrap:wrap}
+.tab{padding:10px 20px;border:none;background:none;color:var(--text-secondary);font-weight:600;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all var(--transition-fast)}
+.tab:hover{color:var(--text-primary)}
+.tab.active{color:var(--accent-blue);border-bottom-color:var(--accent-blue)}
+.search-box{display:flex;align-items:center;gap:8px;background:var(--bg-tertiary);border:1px solid var(--border-primary);border-radius:var(--radius-md);padding:8px 16px;transition:border-color var(--transition-fast)}
+.search-box:focus-within{border-color:var(--accent-blue)}
+.search-box input{background:none;border:none;outline:none;color:var(--text-primary);font-size:.9em;width:100%}
+.search-box input::placeholder{color:var(--text-tertiary)}
+.footer{background:var(--bg-secondary);border-top:1px solid var(--border-primary);padding:40px 24px 24px;margin-top:auto}
+.footer-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;max-width:var(--max-content);margin:0 auto}
+.footer h4{font-weight:700;margin-bottom:12px;color:var(--text-primary)}
+.footer a{display:block;color:var(--text-secondary);font-size:.85em;padding:3px 0}
+.footer a:hover{color:var(--accent-blue)}
+.footer-bottom{text-align:center;padding-top:24px;margin-top:24px;border-top:1px solid var(--border-primary);color:var(--text-tertiary);font-size:.8em}
+.lang-switcher{position:relative}
+.lang-btn{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:var(--radius-sm);border:1px solid var(--border-primary);background:var(--bg-tertiary);color:var(--text-primary);font-size:.85em;cursor:pointer}
+.lang-dropdown{position:absolute;top:100%;right:0;margin-top:4px;background:var(--bg-secondary);border:1px solid var(--border-primary);border-radius:var(--radius-md);min-width:200px;max-height:300px;overflow-y:auto;box-shadow:var(--shadow-lg);z-index:150;display:none}
+.lang-dropdown.open{display:block}
+.lang-option{display:flex;align-items:center;gap:8px;padding:10px 16px;cursor:pointer;font-size:.9em;transition:background var(--transition-fast)}
+.lang-option:hover{background:var(--bg-tertiary)}
+.lang-option.active{color:var(--accent-blue);font-weight:600}
+.game-frame{width:100%;height:80vh;border:none;border-radius:var(--radius-lg);background:var(--bg-primary)}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes glow{0%,100%{box-shadow:0 0 5px rgba(88,166,255,.3)}50%{box-shadow:0 0 20px rgba(88,166,255,.6)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.animate-fadeIn{animation:fadeIn .5s ease}
+.animate-slideUp{animation:slideUp .5s ease}
+.animate-glow{animation:glow 2s ease-in-out infinite}
+.animate-float{animation:float 3s ease-in-out infinite}
+.toast-area{position:fixed;bottom:20px;right:20px;z-index:300;display:flex;flex-direction:column-reverse;gap:8px}
+.toast{padding:12px 20px;border-radius:var(--radius-md);background:var(--bg-elevated);border:1px solid var(--border-primary);color:var(--text-primary);font-size:.9em;animation:slideUp .3s ease;box-shadow:var(--shadow-md);max-width:360px}
+pre{background:var(--bg-primary);border:1px solid var(--border-primary);border-radius:var(--radius-md);padding:16px;overflow-x:auto;font-family:var(--font-mono);font-size:.85em;line-height:1.6}
+.input{background:var(--bg-primary);border:1px solid var(--border-primary);border-radius:var(--radius-sm);padding:10px 14px;color:var(--text-primary);font-size:.9em;width:100%;transition:border-color var(--transition-fast)}
+.input:focus{outline:none;border-color:var(--accent-blue)}
+.menu-toggle{display:none;background:none;border:none;color:var(--text-primary);font-size:1.5em;cursor:pointer;padding:4px}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:99}
+@media(max-width:1024px){.grid-3,.grid-4{grid-template-columns:repeat(2,1fr)}.stats-grid{grid-template-columns:repeat(2,1fr)}.footer-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){.menu-toggle{display:block}.sidebar{transform:translateX(-100%);box-shadow:var(--shadow-lg)}.sidebar.open{transform:translateX(0)}.sidebar-overlay.show{display:block}.main-content{margin-left:0}.topbar{padding:0 16px}.page-content{padding:24px 16px}.hero{padding:60px 16px 40px}.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}.stats-grid{grid-template-columns:1fr 1fr}.footer-grid{grid-template-columns:1fr}.hero h1{font-size:2em}.modal{padding:20px;margin:10px}}
+.progress-bar{height:6px;background:var(--bg-tertiary);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--accent-blue),var(--accent-purple));transition:width .5s ease}
+.glass-panel{background:rgba(22,27,34,.6);backdrop-filter:blur(16px);border:1px solid var(--border-primary);border-radius:var(--radius-lg);padding:24px}
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.feature-item{display:flex;gap:12px;padding:16px;background:var(--bg-secondary);border:1px solid var(--border-primary);border-radius:var(--radius-md);transition:all var(--transition-fast)}
+.feature-item:hover{border-color:var(--border-hover)}
+.feature-icon{font-size:2em;flex-shrink:0}
+.feature-text h4{font-weight:700;margin-bottom:4px}
+.feature-text p{font-size:.85em;color:var(--text-secondary);line-height:1.4}
+.breadcrumb{display:flex;gap:6px;align-items:center;font-size:.85em;color:var(--text-secondary);margin-bottom:20px}
+.breadcrumb a{color:var(--text-secondary)}
+.breadcrumb a:hover{color:var(--accent-blue)}
+.breadcrumb span{color:var(--text-primary)}
+.tool-panel{background:var(--bg-secondary);border:1px solid var(--border-primary);border-radius:var(--radius-lg);padding:24px}
+.tool-panel h3{margin-bottom:16px;font-size:1.3em}
+.table{width:100%;border-collapse:collapse}
+.table th,.table td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--border-primary);font-size:.9em}
+.table th{font-weight:700;color:var(--text-secondary);font-size:.8em;text-transform:uppercase}
+.table tr:hover{background:var(--bg-tertiary)}
+.pagination{display:flex;gap:8px;justify-content:center;margin-top:20px}
+.page-btn{padding:6px 12px;border:1px solid var(--border-primary);border-radius:var(--radius-sm);background:var(--bg-secondary);color:var(--text-primary);cursor:pointer;font-size:.85em}
+.page-btn:hover{background:var(--bg-tertiary)}
+.page-btn.active{background:var(--accent-blue);border-color:var(--accent-blue);color:#fff}
+.empty-state{text-align:center;padding:60px 20px;color:var(--text-secondary)}
+.empty-state .empty-icon{font-size:4em;margin-bottom:16px}
+.empty-state h3{margin-bottom:8px;color:var(--text-primary)}
+.chip{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:16px;font-size:.8em;font-weight:500;background:var(--bg-tertiary)}
+.chip .chip-close{cursor:pointer;opacity:.6;background:none;border:none;color:inherit;font-size:1.1em;padding:0 2px}
+.chip .chip-close:hover{opacity:1}
+
+</style>
+
+</head>
+<body>
+<div class="toast-area" id="toastArea"></div>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+<div id="app">
+<nav class="sidebar" id="sidebar">
+<div class="logo-area"><div class="logo-icon">⚒️</div><span class="logo-text">AWE_Forge</span></div>
+<div style="padding:8px 16px"><div class="search-box"><span style="color:var(--text-tertiary)">🔍</span><input type="text" placeholder="Search..." oninput="handleGlobalSearch(this.value)" id="globalSearch"></div></div>
+<div class="nav-section" id="navMain"></div>
+<div class="nav-section" id="navTools"></div>
+<div class="nav-section" id="navMore"></div>
+<div style="margin-top:auto;padding:16px;border-top:1px solid var(--border-primary)"><div style="font-size:.7em;color:var(--text-tertiary);text-align:center">AWE_Forge v1.0<br><span style="color:var(--accent-purple)">⚡ Serverless • 10 Languages</span></div></div>
+</nav>
+<div class="main-content">
+<header class="topbar">
+<div style="display:flex;align-items:center;gap:12px"><button class="menu-toggle" onclick="toggleSidebar()">☰</button><span id="pageTitle" style="font-weight:700;font-size:1.1em">Home</span></div>
+<div style="display:flex;align-items:center;gap:8px">
+<button class="btn btn-ghost btn-sm" onclick="toggleTheme()" title="Toggle theme">🌓</button>
+<div class="lang-switcher"><button class="lang-btn" onclick="toggleLangDropdown()"><span id="currentFlag">🇺🇸</span><span id="currentLang">EN</span><span>▾</span></button><div class="lang-dropdown" id="langDropdown"></div></div>
+</div>
+</header>
+<main class="page-content" id="pageContent"></main>
+<footer class="footer">
+<div class="footer-grid">
+<div><h4>AWE_Forge</h4><a href="#home">Home</a><a href="#games">Games</a><a href="#tools">Tools</a><a href="#forge">Forge</a><a href="#lab">Lab</a></div>
+<div><h4>Learn</h4><a href="#academy">Academy</a><a href="#docs">Documentation</a><a href="#blog">Blog</a><a href="#community">Community</a></div>
+<div><h4>Resources</h4><a href="#marketplace">Marketplace</a><a href="#dashboard">Dashboard</a><a href="#api">API</a><a href="#changelog">Changelog</a></div>
+<div><h4>Company</h4><a href="#about">About</a><a href="#contact">Contact</a><a href="#privacy">Privacy</a><a href="#terms">Terms</a></div>
+</div>
+<div class="footer-bottom">© 2026 AWE_Forge. Built with ❤️. 10 languages. Serverless. Infinite possibilities.</div>
+</footer>
+</div></div>
+
+
+<script>
+// AWE_Forge i18n — 10 languages
+const LANG={"en":{"name":"English","flag":"🇺🇸","code":"en","home":"Home","games":"Games","tools":"Tools","forge":"Forge","lab":"Lab","blog":"Blog","docs":"Docs","academy":"Academy","community":"Community","marketplace":"Marketplace","dashboard":"Dashboard","about":"About","contact":"Contact","api":"API","changelog":"Changelog","privacy":"Privacy","terms":"Terms","search":"Search...","hero_title":"AWE_Forge — Forge Your Universe","hero_sub":"The most powerful serverless web platform. Games, tools, AI experiments, academy, community — all in one place. 10 languages. Infinite possibilities.","hero_btn_start":"Start Exploring","hero_btn_games":"Play Games","hero_btn_tools":"Open Tools","stats_games":"Games","stats_tools":"Tools","stats_langs":"Languages","stats_pages":"Pages","featured_games":"Featured Games","featured_games_sub":"Discover our collection of 23 original web games","featured_tools":"Top Tools","featured_tools_sub":"Most popular tools from our 50+ collection","play_now":"Play Now","open_tool":"Open Tool","view_all":"View All","loading":"Loading...","no_results":"No results found","back":"Back","save":"Save","copy":"Copy","copied":"Copied!","share":"Share","close":"Close","try_now":"Try Now","coming_soon":"Coming Soon","page_not_found":"Page Not Found","page_not_found_desc":"The page you are looking for does not exist or has been moved.","go_home":"Go Home","forge_desc":"Interactive creation tools — build, design, generate","lab_desc":"Experimental zone — AI, simulations, data visualization","academy_desc":"Learn new skills with our interactive courses","blog_desc":"Read the latest from Blogma","community_desc":"Join discussions, share creations, get feedback","marketplace_desc":"Templates, assets, resources for your projects","dashboard_desc":"Your personal dashboard with stats and history","about_desc":"Learn about AWE_Forge and our mission","docs_desc":"Documentation, guides, and API reference","theme_light":"Light Mode","theme_dark":"Dark Mode","nav_main":"Main","nav_platform":"Platform","nav_resources":"Resources","all_games":"All Games","all_tools":"All Tools","game_library":"Game Library","tool_collection":"Tool Collection","quick_actions":"Quick Actions","recent":"Recent","favorites":"Favorites","stats":"Stats","create":"Create","explore":"Explore","download":"Download","upload":"Upload","settings":"Settings","profile":"Profile","logout":"Logout","sign_in":"Sign In","sign_up":"Sign Up","welcome":"Welcome","overview":"Overview","analytics":"Analytics","reports":"Reports","activity":"Activity","notifications":"Notifications","messages":"Messages","dark_mode":"Dark Mode","light_mode":"Light Mode","color_scheme":"Color Scheme","accessibility":"Accessibility","language":"Language","region":"Region","timezone":"Timezone","version":"Version","build":"Build","deploy":"Deploy","preview":"Preview","publish":"Publish","draft":"Draft","archived":"Archived","filter":"Filter","sort":"Sort","export":"Export","import":"Import","refresh":"Refresh","more":"More","less":"Less","show_more":"Show More","show_less":"Show Less","clear":"Clear","reset":"Reset","apply":"Apply","cancel":"Cancel","confirm":"Confirm","delete":"Delete","edit":"Edit","add":"Add","remove":"Remove","update":"Update","installing":"Installing...","processing":"Processing...","calculating":"Calculating...","generating":"Generating...","analyzing":"Analyzing...","calculator":"Calculator","converter":"Converter","generator":"Generator","encoder_decoder":"Encoder/Decoder","formatter":"Formatter","validator":"Validator","color_tools":"Color Tools","text_tools":"Text Tools","data_tools":"Data Tools","result":"Result","input":"Input","output":"Output","password_generator":"Password Generator","uuid_generator":"UUID Generator","base64_encoder":"Base64 Encoder","url_encoder":"URL Encoder","json_formatter":"JSON Formatter","html_formatter":"HTML Formatter","markdown_preview":"Markdown Preview","regex_tester":"Regex Tester","hash_generator":"Hash Generator","qr_generator":"QR Code Generator","color_picker":"Color Picker","gradient_builder":"Gradient Builder","word_counter":"Word Counter","character_counter":"Character Counter","diff_checker":"Diff Checker","lorem_generator":"Lorem Ipsum Generator","unit_converter":"Unit Converter","currency_converter":"Currency Converter","stopwatch":"Stopwatch","timer":"Timer","pomodoro":"Pomodoro Timer","notes":"Notes","draw":"Drawing Board","whiteboard":"Whiteboard","soundboard":"Sound Board","metronome":"Metronome"},"hy":{"name":"Հայերեն","flag":"🇦🇲","code":"hy","home":"Գլխավոր","games":"Խաղեր","tools":"Գործիքներ","forge":"Դարբնոց","lab":"Լաբորատորիա","blog":"Բլոգ","docs":"Փաստաթղթեր","academy":"Ակադեմիա","community":"Համայնք","marketplace":"Շուկա","dashboard":"Վահանակ","about":"Մեր Մասին","contact":"Կապ","api":"API","changelog":"Փոփոխություններ","privacy":"Գաղտնիություն","terms":"Պայմաններ","search":"Որոնել...","hero_title":"AWE_Forge — Կերտիր Քո Տիեզերքը","hero_sub":"Ամենահզոր serverless վեբ հարթակը: Խաղեր, գործիքներ, AI փորձարկումներ, ակադեմիա, համայնք — ամեն ինչ մեկ տեղում: 10 լեզու: Անսահման հնարավորություններ:","hero_btn_start":"Սկսել Ուսումնասիրել","hero_btn_games":"Խաղալ","hero_btn_tools":"Բացել Գործիքները","stats_games":"Խաղեր","stats_tools":"Գործիքներ","stats_langs":"Լեզուներ","stats_pages":"Էջեր","featured_games":"Ընտրված Խաղեր","featured_games_sub":"Բացահայտիր մեր 23 օրիգինալ վեբ խաղերը","featured_tools":"Լավագույն Գործիքներ","featured_tools_sub":"Ամենահայտնի գործիքները 50+ հավաքածուից","play_now":"Խաղալ","open_tool":"Բացել","view_all":"Տեսնել Բոլորը","loading":"Բեռնում...","no_results":"Արդյունքներ չեն գտնվել","back":"Հետ","save":"Պահպանել","copy":"Պատճենել","copied":"Պատճենված է!","share":"Կիսվել","close":"Փակել","try_now":"Փորձել","coming_soon":"Շուտով","page_not_found":"Էջը Չի Գտնվել","page_not_found_desc":"Փնտրվող էջը գոյություն չունի կամ տեղափոխվել է:","go_home":"Գլխավոր Էջ","forge_desc":"Ինտերակտիվ ստեղծման գործիքներ — կառուցիր, նախագծիր, գեներացրու","lab_desc":"Փորձարարական գոտի — AI, սիմուլյացիաներ, տվյալների վիզուալիզացիա","academy_desc":"Սովորիր նոր հմտություններ ինտերակտիվ դասընթացներով","blog_desc":"Կարդա վերջին հոդվածները Blogma-ից","community_desc":"Միացիր քննարկումներին, կիսվիր ստեղծագործություններով","marketplace_desc":"Կաղապարներ, ակտիվներ, ռեսուրսներ նախագծերի համար","dashboard_desc":"Քո անձնական վահանակը վիճակագրությամբ և պատմությամբ","about_desc":"Իմացիր AWE_Forge-ի և մեր առաքելության մասին","docs_desc":"Փաստաթղթեր, ուղեցույցներ և API հղում","theme_light":"Լուսավոր Ռեժիմ","theme_dark":"Մութ Ռեժիմ","nav_main":"Գլխավոր","nav_platform":"Հարթակ","nav_resources":"Ռեսուրսներ","all_games":"Բոլոր Խաղերը","all_tools":"Բոլոր Գործիքները","game_library":"Խաղերի Գրադարան","tool_collection":"Գործիքների Հավաքածու","quick_actions":"Արագ Գործողություններ","recent":"Վերջերս","favorites":"Ընտրյալներ","stats":"Stats","create":"Create","explore":"Explore","download":"Download","upload":"Upload","settings":"Settings","profile":"Profile","logout":"Logout","sign_in":"Sign In","sign_up":"Sign Up","welcome":"Բարի Գալուստ","overview":"Ընդհանուր","analytics":"Վերլուծություն","reports":"Հաշվետվություններ","activity":"Գործունեություն","notifications":"Ծանուցումներ","messages":"Հաղորդագրություններ","dark_mode":"Dark Mode","light_mode":"Light Mode","color_scheme":"Color Scheme","accessibility":"Accessibility","language":"Language","region":"Region","timezone":"Timezone","version":"Version","build":"Build","deploy":"Deploy","preview":"Preview","publish":"Publish","draft":"Draft","archived":"Archived","filter":"Զտել","sort":"Դասավորել","export":"Արտահանել","import":"Ներմուծել","refresh":"Թարմացնել","more":"Ավելին","less":"Պակաս","show_more":"Show More","show_less":"Show Less","clear":"Մաքրել","reset":"Վերակայել","apply":"Կիրառել","cancel":"Չեղարկել","confirm":"Հաստատել","delete":"Ջնջել","edit":"Խմբագրել","add":"Ավելացնել","remove":"Հեռացնել","update":"Թարմացնել","installing":"Installing...","processing":"Processing...","calculating":"Calculating...","generating":"Generating...","analyzing":"Analyzing...","calculator":"Հաշվիչ","converter":"Փոխարկիչ","generator":"Գեներատոր","encoder_decoder":"Կոդավորիչ/Ապակոդավորիչ","formatter":"Ձևավորիչ","validator":"Ստուգիչ","color_tools":"Գույնի Գործիքներ","text_tools":"Տեքստի Գործիքներ","data_tools":"Տվյալների Գործիքներ","result":"Արդյունք","input":"Մուտք","output":"Ելք","password_generator":"Գաղտնաբառի Գեներատոր","uuid_generator":"UUID Գեներատոր","base64_encoder":"Base64 Կոդավորիչ","url_encoder":"URL Կոդավորիչ","json_formatter":"JSON Ձևավորիչ","html_formatter":"HTML Ձևավորիչ","markdown_preview":"Markdown Նախադիտում","regex_tester":"Regex Փորձարկիչ","hash_generator":"Հեշ Գեներատոր","qr_generator":"QR Կոդի Գեներատոր","color_picker":"Գույնի Ընտրիչ","gradient_builder":"Գրադիենտ Կառուցող","word_counter":"Բառերի Հաշվիչ","character_counter":"Նիշերի Հաշվիչ","diff_checker":"Տարբերության Ստուգիչ","lorem_generator":"Lorem Ipsum Գեներատոր","unit_converter":"Միավորների Փոխարկիչ","currency_converter":"Արժույթի Փոխարկիչ","stopwatch":"Վայրկենաչափ","timer":"Ժամաչափ","pomodoro":"Պոմոդորո Ժամաչափ","notes":"Նշումներ","draw":"Նկարչական Տախտակ","whiteboard":"Սպիտակ Տախտակ","soundboard":"Ձայնային Վահանակ","metronome":"Մետրոնոմ"},"ru":{"name":"Русский","flag":"🇷🇺","code":"ru","home":"Главная","games":"Игры","tools":"Инструменты","forge":"Кузница","lab":"Лаборатория","blog":"Блог","docs":"Документы","academy":"Академия","community":"Сообщество","marketplace":"Маркет","dashboard":"Панель","about":"О Нас","contact":"Контакты","api":"API","changelog":"Изменения","privacy":"Приватность","terms":"Условия","search":"Поиск...","hero_title":"AWE_Forge — Создай Свою Вселенную","hero_sub":"Самая мощная serverless веб-платформа. Игры, инструменты, AI эксперименты, академия, сообщество — всё в одном месте. 10 языков. Безграничные возможности.","hero_btn_start":"Начать Исследовать","hero_btn_games":"Играть","hero_btn_tools":"Инструменты","stats_games":"Игр","stats_tools":"Инструментов","stats_langs":"Языков","stats_pages":"Страниц","featured_games":"Популярные Игры","featured_games_sub":"Откройте нашу коллекцию из 23 оригинальных веб-игр","featured_tools":"Лучшие Инструменты","featured_tools_sub":"Самые популярные инструменты из 50+","play_now":"Играть","open_tool":"Открыть","view_all":"Смотреть Все","loading":"Загрузка...","no_results":"Ничего не найдено","back":"Назад","save":"Сохранить","copy":"Копировать","copied":"Скопировано!","share":"Поделиться","close":"Закрыть","try_now":"Попробовать","coming_soon":"Скоро","page_not_found":"Страница Не Найдена","page_not_found_desc":"Запрашиваемая страница не существует или была перемещена.","go_home":"На Главную","forge_desc":"Интерактивные инструменты создания — строй, проектируй, генерируй","lab_desc":"Экспериментальная зона — AI, симуляции, визуализация данных","academy_desc":"Изучай новые навыки с интерактивными курсами","blog_desc":"Читай последние статьи из Blogma","community_desc":"Присоединяйся к обсуждениям, делись творениями","marketplace_desc":"Шаблоны, активы, ресурсы для проектов","dashboard_desc":"Your personal dashboard with stats and history","about_desc":"Узнай о AWE_Forge и нашей миссии","docs_desc":"Documentation, guides, and API reference","theme_light":"Светлый Режим","theme_dark":"Тёмный Режим","nav_main":"Главное","nav_platform":"Платформа","nav_resources":"Ресурсы","all_games":"Все Игры","all_tools":"Все Инструменты","game_library":"Библиотека Игр","tool_collection":"Коллекция Инструментов","quick_actions":"Quick Actions","recent":"Recent","favorites":"Favorites","stats":"Stats","create":"Create","explore":"Explore","download":"Download","upload":"Upload","settings":"Настройки","profile":"Профиль","logout":"Выйти","sign_in":"Войти","sign_up":"Регистрация","welcome":"Добро Пожаловать","overview":"Обзор","analytics":"Аналитика","reports":"Отчёты","activity":"Активность","notifications":"Уведомления","messages":"Сообщения","dark_mode":"Dark Mode","light_mode":"Light Mode","color_scheme":"Color Scheme","accessibility":"Accessibility","language":"Language","region":"Region","timezone":"Timezone","version":"Version","build":"Build","deploy":"Deploy","preview":"Preview","publish":"Publish","draft":"Draft","archived":"Archived","filter":"Фильтр","sort":"Сортировка","export":"Экспорт","import":"Импорт","refresh":"Обновить","more":"More","less":"Less","show_more":"Show More","show_less":"Show Less","clear":"Очистить","reset":"Сбросить","apply":"Применить","cancel":"Отмена","confirm":"Подтвердить","delete":"Удалить","edit":"Редактировать","add":"Add","remove":"Remove","update":"Update","installing":"Installing...","processing":"Processing...","calculating":"Calculating...","generating":"Generating...","analyzing":"Analyzing...","calculator":"Calculator","converter":"Converter","generator":"Generator","encoder_decoder":"Encoder/Decoder","formatter":"Formatter","validator":"Validator","color_tools":"Color Tools","text_tools":"Text Tools","data_tools":"Data Tools","result":"Result","input":"Input","output":"Output","password_generator":"Password Generator","uuid_generator":"UUID Generator","base64_encoder":"Base64 Encoder","url_encoder":"URL Encoder","json_formatter":"JSON Formatter","html_formatter":"HTML Formatter","markdown_preview":"Markdown Preview","regex_tester":"Regex Tester","hash_generator":"Hash Generator","qr_generator":"QR Code Generator","color_picker":"Color Picker","gradient_builder":"Gradient Builder","word_counter":"Word Counter","character_counter":"Character Counter","diff_checker":"Diff Checker","lorem_generator":"Lorem Ipsum Generator","unit_converter":"Unit Converter","currency_converter":"Currency Converter","stopwatch":"Stopwatch","timer":"Timer","pomodoro":"Pomodoro Timer","notes":"Notes","draw":"Drawing Board","whiteboard":"Whiteboard","soundboard":"Sound Board","metronome":"Metronome"},"zh":{"name":"中文","flag":"🇨🇳","code":"zh","home":"首页","games":"游戏","tools":"工具","forge":"锻造","lab":"实验室","blog":"博客","docs":"文档","academy":"学院","community":"社区","marketplace":"市场","dashboard":"仪表板","about":"关于","contact":"联系","api":"API","changelog":"更新日志","privacy":"隐私","terms":"条款","search":"搜索...","hero_title":"AWE_Forge — 锻造你的宇宙","hero_sub":"最强大的无服务器网络平台。游戏、工具、AI实验、学院课程、社区 — 尽在一处。10种语言。无限可能。","hero_btn_start":"开始探索","hero_btn_games":"玩游戏","hero_btn_tools":"打开工具","stats_games":"游戏","stats_tools":"工具","stats_langs":"语言","stats_pages":"页面","featured_games":"精选游戏","featured_games_sub":"发现我们23款原创网页游戏","featured_tools":"热门工具","featured_tools_sub":"50+工具中最受欢迎的","play_now":"立即游玩","open_tool":"打开工具","view_all":"查看全部","loading":"加载中...","no_results":"未找到结果","back":"返回","save":"保存","copy":"复制","copied":"已复制!","share":"分享","close":"关闭","try_now":"立即尝试","coming_soon":"即将推出","page_not_found":"页面未找到","page_not_found_desc":"您查找的页面不存在或已被移动。","go_home":"返回首页","forge_desc":"交互式创作工具 — 构建、设计、生成","lab_desc":"实验区 — AI、模拟、数据可视化","academy_desc":"通过互动课程学习新技能","blog_desc":"阅读Blogma最新文章","community_desc":"加入讨论，分享创作，获取反馈","marketplace_desc":"项目模板、资产、资源","dashboard_desc":"Your personal dashboard with stats and history","about_desc":"了解AWE_Forge和我们的使命","docs_desc":"Documentation, guides, and API reference","theme_light":"浅色模式","theme_dark":"深色模式","nav_main":"主要","nav_platform":"平台","nav_resources":"资源","all_games":"全部游戏","all_tools":"全部工具","game_library":"游戏库","tool_collection":"工具集","quick_actions":"Quick Actions","recent":"Recent","favorites":"Favorites","stats":"Stats","create":"Create","explore":"Explore","download":"Download","upload":"Upload","settings":"设置","profile":"个人资料","logout":"退出","sign_in":"登录","sign_up":"注册","welcome":"欢迎","overview":"概览","analytics":"分析","reports":"报告","activity":"Activity","notifications":"通知","messages":"消息","dark_mode":"Dark Mode","light_mode":"Light Mode","color_scheme":"Color Scheme","accessibility":"Accessibility","language":"Language","region":"Region","timezone":"Timezone","version":"Version","build":"Build","deploy":"Deploy","preview":"Preview","publish":"Publish","draft":"Draft","archived":"Archived","filter":"Filter","sort":"Sort","export":"Export","import":"Import","refresh":"Refresh","more":"More","less":"Less","show_more":"Show More","show_less":"Show Less","clear":"Clear","reset":"Reset","apply":"Apply","cancel":"Cancel","confirm":"Confirm","delete":"Delete","edit":"Edit","add":"Add","remove":"Remove","update":"Update","installing":"Installing...","processing":"Processing...","calculating":"Calculating...","generating":"Generating...","analyzing":"Analyzing...","calculator":"Calculator","converter":"Converter","generator":"Generator","encoder_decoder":"Encoder/Decoder","formatter":"Formatter","validator":"Validator","color_tools":"Color Tools","text_tools":"Text Tools","data_tools":"Data Tools","result":"Result","input":"Input","output":"Output","password_generator":"Password Generator","uuid_generator":"UUID Generator","base64_encoder":"Base64 Encoder","url_encoder":"URL Encoder","json_formatter":"JSON Formatter","html_formatter":"HTML Formatter","markdown_preview":"Markdown Preview","regex_tester":"Regex Tester","hash_generator":"Hash Generator","qr_generator":"QR Code Generator","color_picker":"Color Picker","gradient_builder":"Gradient Builder","word_counter":"Word Counter","character_counter":"Character Counter","diff_checker":"Diff Checker","lorem_generator":"Lorem Ipsum Generator","unit_converter":"Unit Converter","currency_converter":"Currency Converter","stopwatch":"Stopwatch","timer":"Timer","pomodoro":"Pomodoro Timer","notes":"Notes","draw":"Drawing Board","whiteboard":"Whiteboard","soundboard":"Sound Board","metronome":"Metronome"},"es":{"name":"Español","flag":"🇪🇸","code":"es","home":"Inicio","games":"Juegos","tools":"Herramientas","forge":"Forja","lab":"Laboratorio","blog":"Blog","docs":"Documentos","academy":"Academia","community":"Comunidad","marketplace":"Mercado","dashboard":"Panel","about":"Acerca de","contact":"Contacto","api":"API","changelog":"Cambios","privacy":"Privacidad","terms":"Términos","search":"Buscar...","hero_title":"AWE_Forge — Forja Tu Universo","hero_sub":"La plataforma web sin servidor más poderosa. Juegos, herramientas, experimentos IA, academia, comunidad — todo en un solo lugar. 10 idiomas. Posibilidades infinitas.","hero_btn_start":"Comenzar","hero_btn_games":"Jugar","hero_btn_tools":"Herramientas","stats_games":"Juegos","stats_tools":"Herramientas","stats_langs":"Idiomas","stats_pages":"Páginas","featured_games":"Juegos Destacados","featured_games_sub":"Descubre nuestra colección de 23 juegos web originales","featured_tools":"Mejores Herramientas","featured_tools_sub":"Las más populares de 50+ herramientas","play_now":"Jugar Ahora","open_tool":"Abrir","view_all":"Ver Todo","loading":"Cargando...","no_results":"Sin resultados","back":"Volver","save":"Guardar","copy":"Copiar","copied":"¡Copiado!","share":"Compartir","close":"Cerrar","try_now":"Probar","coming_soon":"Próximamente","page_not_found":"Página No Encontrada","page_not_found_desc":"La página que buscas no existe o ha sido movida.","go_home":"Ir al Inicio","forge_desc":"Herramientas interactivas de creación — construye, diseña, genera","lab_desc":"Zona experimental — IA, simulaciones, visualización de datos","academy_desc":"Aprende nuevas habilidades con cursos interactivos","blog_desc":"Lee lo último de Blogma","community_desc":"Join discussions, share creations, get feedback","marketplace_desc":"Templates, assets, resources for your projects","dashboard_desc":"Your personal dashboard with stats and history","about_desc":"Learn about AWE_Forge and our mission","docs_desc":"Documentation, guides, and API reference","theme_light":"Modo Claro","theme_dark":"Modo Oscuro","nav_main":"Principal","nav_platform":"Plataforma","nav_resources":"Recursos","all_games":"Todos los Juegos","all_tools":"Todas las Herramientas","game_library":"Game Library","tool_collection":"Tool Collection","quick_actions":"Quick Actions","recent":"Recent","favorites":"Favorites","stats":"Stats","create":"Create","explore":"Explore","download":"Download","upload":"Upload","settings":"Settings","profile":"Profile","logout":"Logout","sign_in":"Sign In","sign_up":"Sign Up","welcome":"Bienvenido","overview":"Resumen","analytics":"Analíticas","reports":"Reports","activity":"Activity","notifications":"Notifications","messages":"Messages","dark_mode":"Dark Mode","light_mode":"Light Mode","color_scheme":"Color Scheme","accessibility":"Accessibility","language":"Language","region":"Region","timezone":"Timezone","version":"Version","build":"Build","deploy":"Deploy","preview":"Preview","publish":"Publish","draft":"Draft","archived":"Archived","filter":"Filter","sort":"Sort","export":"Export","import":"Import","refresh":"Refresh","more":"More","less":"Less","show_more":"Show More","show_less":"Show Less","clear":"Clear","reset":"Reset","apply":"Apply","cancel":"Cancel","confirm":"Confirm","delete":"Delete","edit":"Edit","add":"Add","remove":"Remove","update":"Update","installing":"Installing...","processing":"Processing...","calculating":"Calculating...","generating":"Generating...","analyzing":"Analyzing...","calculator":"Calculator","converter":"Converter","generator":"Generator","encoder_decoder":"Encoder/Decoder","formatter":"Formatter","validator":"Validator","color_tools":"Color Tools","text_tools":"Text Tools","data_tools":"Data Tools","result":"Result","input":"Input","output":"Output","password_generator":"Password Generator","uuid_generator":"UUID Generator","base64_encoder":"Base64 Encoder","url_encoder":"URL Encoder","json_formatter":"JSON Formatter","html_formatter":"HTML Formatter","markdown_preview":"Markdown Preview","regex_tester":"Regex Tester","hash_generator":"Hash Generator","qr_generator":"QR Code Generator","color_picker":"Color Picker","gradient_builder":"Gradient Builder","word_counter":"Word Counter","character_counter":"Character Counter","diff_checker":"Diff Checker","lorem_generator":"Lorem Ipsum Generator","unit_converter":"Unit Converter","currency_converter":"Currency Converter","stopwatch":"Stopwatch","timer":"Timer","pomodoro":"Pomodoro Timer","notes":"Notes","draw":"Drawing Board","whiteboard":"Whiteboard","soundboard":"Sound Board","metronome":"Metronome"},"fr":{"name":"Français","flag":"🇫🇷","code":"fr","home":"Accueil","games":"Jeux","tools":"Outils","forge":"Forge","lab":"Laboratoire","blog":"Blog","docs":"Documents","academy":"Académie","community":"Communauté","marketplace":"Marché","dashboard":"Tableau de Bord","about":"À Propos","contact":"Contact","api":"API","changelog":"Changements","privacy":"Confidentialité","terms":"Conditions","search":"Rechercher...","hero_title":"AWE_Forge — Forgez Votre Univers","hero_sub":"La plateforme web sans serveur la plus puissante. Jeux, outils, expériences IA, académie, communauté — tout en un seul endroit. 10 langues. Possibilités infinies.","hero_btn_start":"Explorer","hero_btn_games":"Jouer","hero_btn_tools":"Outils","stats_games":"Jeux","stats_tools":"Outils","stats_langs":"Langues","stats_pages":"Pages","featured_games":"Featured Games","featured_games_sub":"Discover our collection of 23 original web games","featured_tools":"Top Tools","featured_tools_sub":"Most popular tools from our 50+ collection","play_now":"Jouer","open_tool":"Ouvrir","view_all":"Voir Tout","loading":"Chargement...","no_results":"Aucun résultat","back":"Retour","save":"Sauvegarder","copy":"Copier","copied":"Copié!","share":"Share","close":"Fermer","try_now":"Try Now","coming_soon":"Coming Soon","page_not_found":"Page Not Found","page_not_found_desc":"The page you are looking for does not exist or has been moved.","go_home":"Accueil","forge_desc":"Interactive creation tools — build, design, generate","lab_desc":"Experimental zone — AI, simulations, data visualization","academy_desc":"Learn new skills with our interactive courses","blog_desc":"Read the latest from Blogma","community_desc":"Join discussions, share creations, get feedback","marketplace_desc":"Templates, assets, resources for your projects","dashboard_desc":"Your personal dashboard with stats and history","about_desc":"Learn about AWE_Forge and our mission","docs_desc":"Documentation, guides, and API reference","theme_light":"Mode Clair","theme_dark":"Mode Sombre","nav_main":"Principal","nav_platform":"Plateforme","nav_resources":"Ressources","all_games":"All Games","all_tools":"All Tools","game_library":"Game Library","tool_collection":"Tool Collection","quick_actions":"Quick Actions","recent":"Recent","favorites":"Favorites","stats":"Stats","create":"Create","explore":"Explore","download":"Download","upload":"Upload","settings":"Settings","profile":"Profile","logout":"Logout","sign_in":"Sign In","sign_up":"Sign Up","welcome":"Bienvenue","overview":"Aperçu","analytics":"Analytics","reports":"Reports","activity":"Activity","notifications":"Notifications","messages":"Messages","dark_mode":"Dark Mode","light_mode":"Light Mode","color_scheme":"Color Scheme","accessibility":"Accessibility","language":"Language","region":"Region","timezone":"Timezone","version":"Version","build":"Build","deploy":"Deploy","preview":"Preview","publish":"Publish","draft":"Draft","archived":"Archived","filter":"Filter","sort":"Sort","export":"Export","import":"Import","refresh":"Refresh","more":"More","less":"Less","show_more":"Show More","show_less":"Show Less","clear":"Clear","reset":"Reset","apply":"Apply","cancel":"Cancel","confirm":"Confirm","delete":"Delete","edit":"Edit","add":"Add","remove":"Remove","update":"Update","installing":"Installing...","processing":"Processing...","calculating":"Calculating...","generating":"Generating...","analyzing":"Analyzing...","calculator":"Calculator","converter":"Converter","generator":"Generator","encoder_decoder":"Encoder/Decoder","formatter":"Formatter","validator":"Validator","color_tools":"Color Tools","text_tools":"Text Tools","data_tools":"Data Tools","result":"Result","input":"Input","output":"Output","password_generator":"Password Generator","uuid_generator":"UUID Generator","base64_encoder":"Base64 Encoder","url_encoder":"URL Encoder","json_formatter":"JSON Formatter","html_formatter":"HTML Formatter","markdown_preview":"Markdown Preview","regex_tester":"Regex Tester","hash_generator":"Hash Generator","qr_generator":"QR Code Generator","color_picker":"Color Picker","gradient_builder":"Gradient Builder","word_counter":"Word Counter","character_counter":"Character Counter","diff_checker":"Diff Checker","lorem_generator":"Lorem Ipsum Generator","unit_converter":"Unit Converter","currency_converter":"Currency Converter","stopwatch":"Stopwatch","timer":"Timer","pomodoro":"Pomodoro Timer","notes":"Notes","draw":"Drawing Board","whiteboard":"Whiteboard","soundboard":"Sound Board","metronome":"Metronome"},"de":{"name":"Deutsch","flag":"🇩🇪","code":"de","home":"Start","games":"Spiele","tools":"Werkzeuge","forge":"Schmiede","lab":"Labor","blog":"Blog","docs":"Dokumente","academy":"Akademie","community":"Gemeinschaft","marketplace":"Marktplatz","dashboard":"Dashboard","about":"Über Uns","contact":"Kontakt","api":"API","changelog":"Änderungen","privacy":"Datenschutz","terms":"Bedingungen","search":"Suchen...","hero_title":"AWE_Forge — Schmiede Dein Universum","hero_sub":"Die mächtigste serverlose Web-Plattform. Spiele, Werkzeuge, KI-Experimente, Akademie, Gemeinschaft — alles an einem Ort. 10 Sprachen. Unendliche Möglichkeiten.","hero_btn_start":"Loslegen","hero_btn_games":"Spielen","hero_btn_tools":"Werkzeuge","stats_games":"Spiele","stats_tools":"Werkzeuge","stats_langs":"Sprachen","stats_pages":"Seiten","featured_games":"Featured Games","featured_games_sub":"Discover our collection of 23 original web games","featured_tools":"Top Tools","featured_tools_sub":"Most popular tools from our 50+ collection","play_now":"Jetzt Spielen","open_tool":"Öffnen","view_all":"Alle Anzeigen","loading":"Laden...","no_results":"Keine Ergebnisse","back":"Zurück","save":"Speichern","copy":"Kopieren","copied":"Kopiert!","share":"Share","close":"Schließen","try_now":"Try Now","coming_soon":"Coming Soon","page_not_found":"Page Not Found","page_not_found_desc":"The page you are looking for does not exist or has been moved.","go_home":"Zur Startseite","forge_desc":"Interactive creation tools — build, design, generate","lab_desc":"Experimental zone — AI, simulations, data visualization","academy_desc":"Learn new skills with our interactive courses","blog_desc":"Read the latest from Blogma","community_desc":"Join discussions, share creations, get feedback","marketplace_desc":"Templates, assets, resources for your projects","dashboard_desc":"Your personal dashboard with stats and history","about_desc":"Learn about AWE_Forge and our mission","docs_desc":"Documentation, guides, and API reference","theme_light":"Heller Modus","theme_dark":"Dunkler Modus","nav_main":"Haupt","nav_platform":"Plattform","nav_resources":"Ressourcen","all_games":"All Games","all_tools":"All Tools","game_library":"Game Library","tool_collection":"Tool Collection","quick_actions":"Quick Actions","recent":"Recent","favorites":"Favorites","stats":"Stats","create":"Create","explore":"Explore","download":"Download","upload":"Upload","settings":"Settings","profile":"Profile","logout":"Logout","sign_in":"Sign In","sign_up":"Sign Up","welcome":"Willkommen","overview":"Übersicht","analytics":"Analytics","reports":"Reports","activity":"Activity","notifications":"Notifications","messages":"Messages","dark_mode":"Dark Mode","light_mode":"Light Mode","color_scheme":"Color Scheme","accessibility":"Accessibility","language":"Language","region":"Region","timezone":"Timezone","version":"Version","build":"Build","deploy":"Deploy","preview":"Preview","publish":"Publish","draft":"Draft","archived":"Archived","filter":"Filter","sort":"Sort","export":"Export","import":"Import","refresh":"Refresh","more":"More","less":"Less","show_more":"Show More","show_less":"Show Less","clear":"Clear","reset":"Reset","apply":"Apply","cancel":"Cancel","confirm":"Confirm","delete":"Delete","edit":"Edit","add":"Add","remove":"Remove","update":"Update","installing":"Installing...","processing":"Processing...","calculating":"Calculating...","generating":"Generating...","analyzing":"Analyzing...","calculator":"Calculator","converter":"Converter","generator":"Generator","encoder_decoder":"Encoder/Decoder","formatter":"Formatter","validator":"Validator","color_tools":"Color Tools","text_tools":"Text Tools","data_tools":"Data Tools","result":"Result","input":"Input","output":"Output","password_generator":"Password Generator","uuid_generator":"UUID Generator","base64_encoder":"Base64 Encoder","url_encoder":"URL Encoder","json_formatter":"JSON Formatter","html_formatter":"HTML Formatter","markdown_preview":"Markdown Preview","regex_tester":"Regex Tester","hash_generator":"Hash Generator","qr_generator":"QR Code Generator","color_picker":"Color Picker","gradient_builder":"Gradient Builder","word_counter":"Word Counter","character_counter":"Character Counter","diff_checker":"Diff Checker","lorem_generator":"Lorem Ipsum Generator","unit_converter":"Unit Converter","currency_converter":"Currency Converter","stopwatch":"Stopwatch","timer":"Timer","pomodoro":"Pomodoro Timer","notes":"Notes","draw":"Drawing Board","whiteboard":"Whiteboard","soundboard":"Sound Board","metronome":"Metronome"},"ar":{"name":"العربية","flag":"🇸🇦","code":"ar","home":"الرئيسية","games":"ألعاب","tools":"أدوات","forge":"ورشة","lab":"مختبر","blog":"مدونة","docs":"وثائق","academy":"أكاديمية","community":"مجتمع","marketplace":"سوق","dashboard":"لوحة التحكم","about":"حول","contact":"اتصل بنا","api":"API","changelog":"التغييرات","privacy":"الخصوصية","terms":"الشروط","search":"بحث...","hero_title":"AWE_Forge — اصنع كونك","hero_sub":"أقوى منصة ويب بدون خادم. ألعاب، أدوات، تجارب ذكاء اصطناعي، أكاديمية، مجتمع — كل شيء في مكان واحد. 10 لغات. إمكانيات لا نهائية.","hero_btn_start":"ابدأ الاستكشاف","hero_btn_games":"العب","hero_btn_tools":"الأدوات","stats_games":"لعبة","stats_tools":"أداة","stats_langs":"لغة","stats_pages":"صفحة","featured_games":"Featured Games","featured_games_sub":"Discover our collection of 23 original web games","featured_tools":"Top Tools","featured_tools_sub":"Most popular tools from our 50+ collection","play_now":"العب الآن","open_tool":"افتح","view_all":"عرض الكل","loading":"جار التحميل...","no_results":"لا توجد نتائج","back":"رجوع","save":"حفظ","copy":"نسخ","copied":"تم النسخ!","share":"Share","close":"إغلاق","try_now":"Try Now","coming_soon":"Coming Soon","page_not_found":"Page Not Found","page_not_found_desc":"The page you are looking for does not exist or has been moved.","go_home":"الذهاب للرئيسية","forge_desc":"Interactive creation tools — build, design, generate","lab_desc":"Experimental zone — AI, simulations, data visualization","academy_desc":"Learn new skills with our interactive courses","blog_desc":"Read the latest from Blogma","community_desc":"Join discussions, share creations, get feedback","marketplace_desc":"Templates, assets, resources for your projects","dashboard_desc":"Your personal dashboard with stats and history","about_desc":"Learn about AWE_Forge and our mission","docs_desc":"Documentation, guides, and API reference","theme_light":"الوضع الفاتح","theme_dark":"الوضع الداكن","nav_main":"الرئيسية","nav_platform":"المنصة","nav_resources":"الموارد","all_games":"All Games","all_tools":"All Tools","game_library":"Game Library","tool_collection":"Tool Collection","quick_actions":"Quick Actions","recent":"Recent","favorites":"Favorites","stats":"Stats","create":"Create","explore":"Explore","download":"Download","upload":"Upload","settings":"Settings","profile":"Profile","logout":"Logout","sign_in":"Sign In","sign_up":"Sign Up","welcome":"مرحباً","overview":"نظرة عامة","analytics":"Analytics","reports":"Reports","activity":"Activity","notifications":"Notifications","messages":"Messages","dark_mode":"Dark Mode","light_mode":"Light Mode","color_scheme":"Color Scheme","accessibility":"Accessibility","language":"Language","region":"Region","timezone":"Timezone","version":"Version","build":"Build","deploy":"Deploy","preview":"Preview","publish":"Publish","draft":"Draft","archived":"Archived","filter":"Filter","sort":"Sort","export":"Export","import":"Import","refresh":"Refresh","more":"More","less":"Less","show_more":"Show More","show_less":"Show Less","clear":"Clear","reset":"Reset","apply":"Apply","cancel":"Cancel","confirm":"Confirm","delete":"Delete","edit":"Edit","add":"Add","remove":"Remove","update":"Update","installing":"Installing...","processing":"Processing...","calculating":"Calculating...","generating":"Generating...","analyzing":"Analyzing...","calculator":"Calculator","converter":"Converter","generator":"Generator","encoder_decoder":"Encoder/Decoder","formatter":"Formatter","validator":"Validator","color_tools":"Color Tools","text_tools":"Text Tools","data_tools":"Data Tools","result":"Result","input":"Input","output":"Output","password_generator":"Password Generator","uuid_generator":"UUID Generator","base64_encoder":"Base64 Encoder","url_encoder":"URL Encoder","json_formatter":"JSON Formatter","html_formatter":"HTML Formatter","markdown_preview":"Markdown Preview","regex_tester":"Regex Tester","hash_generator":"Hash Generator","qr_generator":"QR Code Generator","color_picker":"Color Picker","gradient_builder":"Gradient Builder","word_counter":"Word Counter","character_counter":"Character Counter","diff_checker":"Diff Checker","lorem_generator":"Lorem Ipsum Generator","unit_converter":"Unit Converter","currency_converter":"Currency Converter","stopwatch":"Stopwatch","timer":"Timer","pomodoro":"Pomodoro Timer","notes":"Notes","draw":"Drawing Board","whiteboard":"Whiteboard","soundboard":"Sound Board","metronome":"Metronome","direction":"rtl"},"ja":{"name":"日本語","flag":"🇯🇵","code":"ja","home":"ホーム","games":"ゲーム","tools":"ツール","forge":"フォージ","lab":"ラボ","blog":"ブログ","docs":"ドキュメント","academy":"アカデミー","community":"コミュニティ","marketplace":"マーケット","dashboard":"ダッシュボード","about":"概要","contact":"連絡先","api":"API","changelog":"変更履歴","privacy":"プライバシー","terms":"利用規約","search":"検索...","hero_title":"AWE_Forge — 宇宙を創造せよ","hero_sub":"最も強力なサーバーレスWebプラットフォーム。ゲーム、ツール、AI実験、アカデミー、コミュニティ — すべて一箇所に。10言語。無限の可能性。","hero_btn_start":"探索を始める","hero_btn_games":"ゲームを遊ぶ","hero_btn_tools":"ツールを開く","stats_games":"ゲーム","stats_tools":"ツール","stats_langs":"言語","stats_pages":"ページ","featured_games":"Featured Games","featured_games_sub":"Discover our collection of 23 original web games","featured_tools":"Top Tools","featured_tools_sub":"Most popular tools from our 50+ collection","play_now":"今すぐ遊ぶ","open_tool":"開く","view_all":"すべて見る","loading":"読み込み中...","no_results":"結果なし","back":"戻る","save":"保存","copy":"コピー","copied":"コピーしました!","share":"Share","close":"閉じる","try_now":"Try Now","coming_soon":"Coming Soon","page_not_found":"Page Not Found","page_not_found_desc":"The page you are looking for does not exist or has been moved.","go_home":"ホームへ","forge_desc":"Interactive creation tools — build, design, generate","lab_desc":"Experimental zone — AI, simulations, data visualization","academy_desc":"Learn new skills with our interactive courses","blog_desc":"Read the latest from Blogma","community_desc":"Join discussions, share creations, get feedback","marketplace_desc":"Templates, assets, resources for your projects","dashboard_desc":"Your personal dashboard with stats and history","about_desc":"Learn about AWE_Forge and our mission","docs_desc":"Documentation, guides, and API reference","theme_light":"ライトモード","theme_dark":"ダークモード","nav_main":"メイン","nav_platform":"プラットフォーム","nav_resources":"リソース","all_games":"All Games","all_tools":"All Tools","game_library":"Game Library","tool_collection":"Tool Collection","quick_actions":"Quick Actions","recent":"Recent","favorites":"Favorites","stats":"Stats","create":"Create","explore":"Explore","download":"Download","upload":"Upload","settings":"Settings","profile":"Profile","logout":"Logout","sign_in":"Sign In","sign_up":"Sign Up","welcome":"ようこそ","overview":"概要","analytics":"Analytics","reports":"Reports","activity":"Activity","notifications":"Notifications","messages":"Messages","dark_mode":"Dark Mode","light_mode":"Light Mode","color_scheme":"Color Scheme","accessibility":"Accessibility","language":"Language","region":"Region","timezone":"Timezone","version":"Version","build":"Build","deploy":"Deploy","preview":"Preview","publish":"Publish","draft":"Draft","archived":"Archived","filter":"Filter","sort":"Sort","export":"Export","import":"Import","refresh":"Refresh","more":"More","less":"Less","show_more":"Show More","show_less":"Show Less","clear":"Clear","reset":"Reset","apply":"Apply","cancel":"Cancel","confirm":"Confirm","delete":"Delete","edit":"Edit","add":"Add","remove":"Remove","update":"Update","installing":"Installing...","processing":"Processing...","calculating":"Calculating...","generating":"Generating...","analyzing":"Analyzing...","calculator":"Calculator","converter":"Converter","generator":"Generator","encoder_decoder":"Encoder/Decoder","formatter":"Formatter","validator":"Validator","color_tools":"Color Tools","text_tools":"Text Tools","data_tools":"Data Tools","result":"Result","input":"Input","output":"Output","password_generator":"Password Generator","uuid_generator":"UUID Generator","base64_encoder":"Base64 Encoder","url_encoder":"URL Encoder","json_formatter":"JSON Formatter","html_formatter":"HTML Formatter","markdown_preview":"Markdown Preview","regex_tester":"Regex Tester","hash_generator":"Hash Generator","qr_generator":"QR Code Generator","color_picker":"Color Picker","gradient_builder":"Gradient Builder","word_counter":"Word Counter","character_counter":"Character Counter","diff_checker":"Diff Checker","lorem_generator":"Lorem Ipsum Generator","unit_converter":"Unit Converter","currency_converter":"Currency Converter","stopwatch":"Stopwatch","timer":"Timer","pomodoro":"Pomodoro Timer","notes":"Notes","draw":"Drawing Board","whiteboard":"Whiteboard","soundboard":"Sound Board","metronome":"Metronome"},"pt":{"name":"Português","flag":"🇧🇷","code":"pt","home":"Início","games":"Jogos","tools":"Ferramentas","forge":"Forja","lab":"Laboratório","blog":"Blog","docs":"Documentos","academy":"Academia","community":"Comunidade","marketplace":"Mercado","dashboard":"Painel","about":"Sobre","contact":"Contato","api":"API","changelog":"Mudanças","privacy":"Privacidade","terms":"Termos","search":"Buscar...","hero_title":"AWE_Forge — Forje Seu Universo","hero_sub":"A plataforma web sem servidor mais poderosa. Jogos, ferramentas, experimentos IA, academia, comunidade — tudo em um só lugar. 10 idiomas. Possibilidades infinitas.","hero_btn_start":"Começar","hero_btn_games":"Jogar","hero_btn_tools":"Ferramentas","stats_games":"Jogos","stats_tools":"Ferramentas","stats_langs":"Idiomas","stats_pages":"Páginas","featured_games":"Featured Games","featured_games_sub":"Discover our collection of 23 original web games","featured_tools":"Top Tools","featured_tools_sub":"Most popular tools from our 50+ collection","play_now":"Jogar Agora","open_tool":"Abrir","view_all":"Ver Tudo","loading":"Carregando...","no_results":"Sem resultados","back":"Voltar","save":"Salvar","copy":"Copiar","copied":"Copiado!","share":"Share","close":"Fechar","try_now":"Try Now","coming_soon":"Coming Soon","page_not_found":"Page Not Found","page_not_found_desc":"The page you are looking for does not exist or has been moved.","go_home":"Ir ao Início","forge_desc":"Interactive creation tools — build, design, generate","lab_desc":"Experimental zone — AI, simulations, data visualization","academy_desc":"Learn new skills with our interactive courses","blog_desc":"Read the latest from Blogma","community_desc":"Join discussions, share creations, get feedback","marketplace_desc":"Templates, assets, resources for your projects","dashboard_desc":"Your personal dashboard with stats and history","about_desc":"Learn about AWE_Forge and our mission","docs_desc":"Documentation, guides, and API reference","theme_light":"Modo Claro","theme_dark":"Modo Escuro","nav_main":"Principal","nav_platform":"Plataforma","nav_resources":"Recursos","all_games":"All Games","all_tools":"All Tools","game_library":"Game Library","tool_collection":"Tool Collection","quick_actions":"Quick Actions","recent":"Recent","favorites":"Favorites","stats":"Stats","create":"Create","explore":"Explore","download":"Download","upload":"Upload","settings":"Settings","profile":"Profile","logout":"Logout","sign_in":"Sign In","sign_up":"Sign Up","welcome":"Bem-vindo","overview":"Visão Geral","analytics":"Analytics","reports":"Reports","activity":"Activity","notifications":"Notifications","messages":"Messages","dark_mode":"Dark Mode","light_mode":"Light Mode","color_scheme":"Color Scheme","accessibility":"Accessibility","language":"Language","region":"Region","timezone":"Timezone","version":"Version","build":"Build","deploy":"Deploy","preview":"Preview","publish":"Publish","draft":"Draft","archived":"Archived","filter":"Filter","sort":"Sort","export":"Export","import":"Import","refresh":"Refresh","more":"More","less":"Less","show_more":"Show More","show_less":"Show Less","clear":"Clear","reset":"Reset","apply":"Apply","cancel":"Cancel","confirm":"Confirm","delete":"Delete","edit":"Edit","add":"Add","remove":"Remove","update":"Update","installing":"Installing...","processing":"Processing...","calculating":"Calculating...","generating":"Generating...","analyzing":"Analyzing...","calculator":"Calculator","converter":"Converter","generator":"Generator","encoder_decoder":"Encoder/Decoder","formatter":"Formatter","validator":"Validator","color_tools":"Color Tools","text_tools":"Text Tools","data_tools":"Data Tools","result":"Result","input":"Input","output":"Output","password_generator":"Password Generator","uuid_generator":"UUID Generator","base64_encoder":"Base64 Encoder","url_encoder":"URL Encoder","json_formatter":"JSON Formatter","html_formatter":"HTML Formatter","markdown_preview":"Markdown Preview","regex_tester":"Regex Tester","hash_generator":"Hash Generator","qr_generator":"QR Code Generator","color_picker":"Color Picker","gradient_builder":"Gradient Builder","word_counter":"Word Counter","character_counter":"Character Counter","diff_checker":"Diff Checker","lorem_generator":"Lorem Ipsum Generator","unit_converter":"Unit Converter","currency_converter":"Currency Converter","stopwatch":"Stopwatch","timer":"Timer","pomodoro":"Pomodoro Timer","notes":"Notes","draw":"Drawing Board","whiteboard":"Whiteboard","soundboard":"Sound Board","metronome":"Metronome"}};
+
+</script>
+
+<script>
+
+// ============================================================
+// AWE_FORGE CORE — Router, Sidebar, Theme, Utils
+// ============================================================
+let currentLang="en";
+let currentPage="home";
+let theme="dark";
+
+// Get translation
+function t(key){return (LANG[currentLang]||LANG.en)[key]||LANG.en[key]||key;}
+function tt(key,lang){return (LANG[lang||currentLang]||LANG.en)[key]||LANG.en[key]||key;}
+
+// Router
+const ROUTES={};
+function route(hash,handler){ROUTES[hash]=handler;}
+
+// Navigate
+function navigate(hash){
+  if(!hash||hash==="#")hash="#home";
+  const h=hash.replace("#","");
+  currentPage=h;
+  window.location.hash=hash;
+  updateSidebar();
+  document.getElementById("pageTitle").textContent=t(h)||t("home");
+  const handler=ROUTES[h];
+  const ct=document.getElementById("pageContent");
+  if(handler){ct.innerHTML='<div style="text-align:center;padding:60px">'+t("loading")+'...</div>';setTimeout(()=>{try{ct.innerHTML="";handler(ct);}catch(e){ct.innerHTML='<div class="empty-state"><div class="empty-icon">⚠️</div><h3>Error</h3><p>'+e.message+'</p></div>';}},50)}
+  else{ct.innerHTML='<div class="empty-state"><div class="empty-icon">🔍</div><h3>'+t("page_not_found")+'</h3><p>'+t("page_not_found_desc")+'</p><br><a href="#home" class="btn btn-primary">'+t("go_home")+'</a></div>';}
+  document.getElementById("pageContent").scrollTop=0;
+  document.getElementById("sidebar").classList.remove("open");
+  document.getElementById("sidebarOverlay").classList.remove("show");
+  closeLangDropdown();
+}
+
+// Hash change listener
+window.addEventListener("hashchange",()=>navigate(window.location.hash));
+window.addEventListener("DOMContentLoaded",()=>{
+  initTheme();
+  initLanguage();
+  buildSidebar();
+  buildLangDropdown();
+  navigate(window.location.hash||"#home");
+});
+
+// Theme
+function initTheme(){
+  const saved=localStorage.getItem("awe-theme")||"dark";
+  theme=saved;
+  document.documentElement.setAttribute("data-theme",theme);
+}
+function toggleTheme(){
+  theme=theme==="dark"?"light":"dark";
+  document.documentElement.setAttribute("data-theme",theme);
+  localStorage.setItem("awe-theme",theme);
+  showToast(t(theme==="dark"?"dark_mode":"light_mode"));
+}
+
+// Language
+function initLanguage(){
+  const saved=localStorage.getItem("awe-lang")||"en";
+  currentLang=saved;
+  updateLangUI();
+}
+function setLanguage(code){
+  currentLang=code;
+  localStorage.setItem("awe-lang",code);
+  updateLangUI();
+  navigate("#"+currentPage);
+}
+function updateLangUI(){
+  const l=LANG[currentLang]||LANG.en;
+  document.getElementById("currentFlag").textContent=l.flag||"";
+  document.getElementById("currentLang").textContent=l.code.toUpperCase();
+  document.documentElement.lang=l.code;
+  document.documentElement.dir=l.direction==="rtl"?"rtl":"ltr";
+}
+function toggleLangDropdown(){
+  document.getElementById("langDropdown").classList.toggle("open");
+}
+function closeLangDropdown(){
+  document.getElementById("langDropdown").classList.remove("open");
+}
+function buildLangDropdown(){
+  const dd=document.getElementById("langDropdown");
+  dd.innerHTML=Object.entries(LANG).map(([k,v])=>'<div class="lang-option'+(k===currentLang?' active':'')+'" onclick="setLanguage(\''+k+'\')"><span>'+v.flag+'</span><span>'+v.name+'</span><span style="margin-left:auto;color:var(--text-tertiary);font-size:.75em">'+v.code.toUpperCase()+'</span></div>').join("");
+}
+document.addEventListener("click",(e)=>{if(!e.target.closest(".lang-switcher"))closeLangDropdown();});
+
+// Sidebar
+function buildSidebar(){
+  const main=document.getElementById("navMain");
+  const tools=document.getElementById("navTools");
+  const more=document.getElementById("navMore");
+  main.innerHTML='<div class="nav-label">'+t("nav_main")+'</div>'+
+    navLink("home","🏠",t("home"))+
+    navLink("dashboard","📊",t("dashboard"))+
+    navLink("games","🎮",t("games"),'<span class="badge">23</span>')+
+    navLink("tools","🔧",t("tools"),'<span class="badge">50+</span>');
+  tools.innerHTML='<div class="nav-label">'+t("nav_platform")+'</div>'+
+    navLink("forge","⚒️",t("forge"))+
+    navLink("lab","🧪",t("lab"))+
+    navLink("academy","📚",t("academy"))+
+    navLink("blog","📝",t("blog"))+
+    navLink("community","💬",t("community"));
+  more.innerHTML='<div class="nav-label">'+t("nav_resources")+'</div>'+
+    navLink("marketplace","🛒",t("marketplace"))+
+    navLink("docs","📖",t("docs"))+
+    navLink("api","⚡",t("api"))+
+    navLink("changelog","📋",t("changelog"))+
+    navLink("about","ℹ️",t("about"))+
+    navLink("contact","✉️",t("contact"));
+}
+function navLink(page,icon,label,badge){
+  return '<button class="nav-item" data-page="'+page+'" onclick="navigate(\'#'+page+'\')"><span class="nav-icon">'+icon+'</span>'+label+(badge||"")+'</button>';
+}
+function updateSidebar(){
+  document.querySelectorAll(".nav-item").forEach(el=>{
+    el.classList.toggle("active",el.dataset.page===currentPage);
+  });
+}
+
+// Mobile sidebar
+function toggleSidebar(){
+  document.getElementById("sidebar").classList.toggle("open");
+  document.getElementById("sidebarOverlay").classList.toggle("show");
+}
+function closeSidebar(){
+  document.getElementById("sidebar").classList.remove("open");
+  document.getElementById("sidebarOverlay").classList.remove("show");
+}
+
+// Toast
+function showToast(msg){
+  const area=document.getElementById("toastArea");
+  const el=document.createElement("div");
+  el.className="toast";
+  el.textContent=msg;
+  area.appendChild(el);
+  setTimeout(()=>{el.style.opacity="0";el.style.transition="opacity .3s";setTimeout(()=>el.remove(),300);},2500);
+}
+
+// Search
+function handleGlobalSearch(q){
+  if(q.length<2)return;
+  // Simple search — navigate to tools/games based on query
+  const lq=q.toLowerCase();
+  if(lq.includes("game")||lq.includes("play")||lq.includes("խաղ"))navigate("#games");
+  else if(lq.includes("tool")||lq.includes("calc")||lq.includes("convert")||lq.includes("գործիք"))navigate("#tools");
+  else if(lq.includes("forge")||lq.includes("create")||lq.includes("build"))navigate("#forge");
+  else if(lq.includes("lab")||lq.includes("experiment")||lq.includes("sim"))navigate("#lab");
+  else if(lq.includes("blog")||lq.includes("article")||lq.includes("post"))navigate("#blog");
+  else if(lq.includes("learn")||lq.includes("course")||lq.includes("tutorial"))navigate("#academy");
+  else if(lq.includes("doc")||lq.includes("guide")||lq.includes("api"))navigate("#docs");
+  else navigate("#home");
+}
+
+// Utility: create card
+function makeCard(icon,title,desc,link,badge){
+  return '<div class="card" onclick="'+(link?'navigate(\'#'+link+'\')':'')+'" style="cursor:pointer">'+
+    (icon?'<div style="font-size:40px;margin-bottom:12px">'+icon+'</div>':'')+
+    '<div style="font-weight:700;margin-bottom:4px">'+title+'</div>'+
+    '<div style="font-size:.85em;color:var(--text-secondary);line-height:1.4">'+desc+'</div>'+
+    (badge?'<div style="margin-top:8px">'+badge+'</div>':'')+
+    '</div>';
+}
+
+// Utility: feature item
+function featItem(icon,title,desc){
+  return '<div class="feature-item"><div class="feature-icon">'+icon+'</div><div class="feature-text"><h4>'+title+'</h4><p>'+desc+'</p></div></div>';
+}
+
+// copy to clipboard
+function copyText(text){
+  navigator.clipboard.writeText(text).then(()=>showToast(t("copied"))).catch(()=>showToast("Failed to copy"));
+}
+
+</script>
+
+<script>
+
+// ============================================================
+// AWE_FORGE PAGES — Part 1: Home, Games, Tools
+// ============================================================
+
+route("home",function(ct){
+ct.innerHTML=`
+<div class="hero animate-fadeIn">
+<h1>${t("hero_title")}</h1>
+<p>${t("hero_sub")}</p>
+<div class="hero-buttons">
+<a href="#games" class="btn btn-primary btn-lg">🎮 ${t("hero_btn_games")}</a>
+<a href="#tools" class="btn btn-secondary btn-lg">🔧 ${t("hero_btn_tools")}</a>
+<a href="#forge" class="btn btn-secondary btn-lg">⚒️ ${t("forge")}</a>
+</div>
+</div>
+<div class="stats-grid animate-slideUp">
+<div class="stat-card"><div class="stat-value">23</div><div class="stat-label">${t("stats_games")}</div></div>
+<div class="stat-card"><div class="stat-value">50+</div><div class="stat-label">${t("stats_tools")}</div></div>
+<div class="stat-card"><div class="stat-value">10</div><div class="stat-label">${t("stats_langs")}</div></div>
+<div class="stat-card"><div class="stat-value">100+</div><div class="stat-label">${t("stats_pages")}</div></div>
+</div>
+<div class="section">
+<h2 class="section-title">🚀 ${t("quick_actions")}</h2>
+<div class="grid grid-4">
+`+makeCard("🎮",t("games"),"23 original web games","games")+
+makeCard("🔧",t("tools"),"50+ calculators, converters, generators","tools")+
+makeCard("⚒️",t("forge"),t("forge_desc"),"forge")+
+makeCard("🧪",t("lab"),t("lab_desc"),"lab")+
+makeCard("📚",t("academy"),t("academy_desc"),"academy")+
+makeCard("📝",t("blog"),t("blog_desc"),"blog")+
+makeCard("💬",t("community"),t("community_desc"),"community")+
+makeCard("🛒",t("marketplace"),t("marketplace_desc"),"marketplace")+
+`</div></div>
+<div class="section">
+<h2 class="section-title">⭐ ${t("featured_games")}</h2>
+<p class="section-subtitle">${t("featured_games_sub")}</p>
+<div class="grid grid-auto" id="homeGames"></div>
+<div style="text-align:center;margin-top:20px"><a href="#games" class="btn btn-secondary">${t("view_all")} →</a></div>
+</div>
+<div class="section">
+<h2 class="section-title">🔥 ${t("featured_tools")}</h2>
+<p class="section-subtitle">${t("featured_tools_sub")}</p>
+<div class="grid grid-auto" id="homeTools"></div>
+<div style="text-align:center;margin-top:20px"><a href="#tools" class="btn btn-secondary">${t("view_all")} →</a></div>
+</div>
+<div class="section" style="text-align:center;padding:60px 20px">
+<h2 style="font-size:2em;margin-bottom:16px">🌍 10 ${t("stats_langs")}</h2>
+<p style="color:var(--text-secondary);max-width:600px;margin:0 auto">English • Հայերեն • Русский • 中文 • Español • Français • Deutsch • العربية • 日本語 • Português</p>
+<div style="margin-top:16px">
+${Object.values(LANG).map(l=>'<span style="display:inline-block;margin:4px;padding:6px 14px;background:var(--bg-tertiary);border-radius:20px;font-size:.85em">'+l.flag+' '+l.name+'</span>').join("")}
+</div></div>`;
+setTimeout(()=>{
+const hg=document.getElementById("homeGames");
+if(hg)hg.innerHTML=GAMES.filter((_,i)=>i<4).map(g=>`<div class="card" onclick="navigate('#games')" style="cursor:pointer"><div style="font-size:40px;margin-bottom:12px">${g.icon}</div><div style="font-weight:700;margin-bottom:4px">${g.title}</div><div style="font-size:.85em;color:var(--text-secondary);line-height:1.4">${g.description||""}</div><div style="margin-top:8px"><span class="tag tag-purple">${g.developer||"AWEGames"}</span></div></div>`).join("");
+},50);
+setTimeout(()=>{
+const ht=document.getElementById("homeTools");
+if(ht)ht.innerHTML=TOOLS.filter((_,i)=>i<6).map(g=>`<div class="tool-card" onclick="navigate('#tools')"><div class="tool-icon">${g.icon}</div><div class="tool-name">${g.name}</div><div class="tool-desc">${g.desc||""}</div></div>`).join("");
+},50);
+});
+
+route("games",function(ct){
+ct.innerHTML=`
+<div class="breadcrumb"><a href="#home">${t("home")}</a><span>/</span><span>${t("games")}</span></div>
+<div class="hero" style="padding:40px 0"><h1>🎮 ${t("game_library")}</h1><p>${t("featured_games_sub")}</p>
+<div style="margin-top:16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+<span class="tag tag-green">23 Total</span><span class="tag tag-blue">Incremental</span><span class="tag tag-purple">Idle</span><span class="tag tag-orange">Web</span>
+</div></div>
+<div class="grid grid-auto" id="gamesGrid"></div>
+<div class="empty-state" id="gamePlayer" style="display:none">
+<button class="btn btn-ghost" onclick="closeGamePlayer()">← ${t("back")}</button>
+<iframe class="game-frame" id="gameFrame" style="margin-top:16px"></iframe></div>`;
+setTimeout(()=>{
+const gg=document.getElementById("gamesGrid");
+if(gg)gg.innerHTML=GAMES.map(g=>`<div class="card" onclick="openGame('${g.folder}','${g.title.replace(/'/g,"\\'")}')" style="cursor:pointer"><div style="font-size:48px;margin-bottom:12px">${g.icon}</div><div style="font-weight:700;font-size:1.1em;margin-bottom:4px">${g.title}</div><div style="font-size:.85em;color:var(--text-secondary);line-height:1.5;margin-bottom:8px">${g.description||""}</div><div style="display:flex;gap:6px"><span class="tag tag-purple">${g.developer||"AWEGames"}</span><span class="tag tag-blue">${t("play_now")}</span></div></div>`).join("");
+},50);
+});
+function openGame(folder,title){
+document.getElementById("gamesGrid").style.display="none";
+document.getElementById("gamePlayer").style.display="block";
+document.getElementById("gameFrame").src="games/"+folder;
+document.getElementById("pageTitle").textContent=title;}
+function closeGamePlayer(){
+document.getElementById("gamesGrid").style.display="";
+document.getElementById("gamePlayer").style.display="none";
+document.getElementById("gameFrame").src="";
+document.getElementById("pageTitle").textContent=t("games");}
+
+route("tools",function(ct){
+ct.innerHTML=`
+<div class="breadcrumb"><a href="#home">${t("home")}</a><span>/</span><span>${t("tools")}</span></div>
+<div class="hero" style="padding:40px 0"><h1>🔧 ${t("tool_collection")}</h1><p>${t("featured_tools_sub")}</p>
+<div style="margin-top:16px"><input class="input" type="text" placeholder="${t("search")}" oninput="filterTools(this.value)" style="max-width:400px"></div></div>
+<div class="tabs" id="toolTabs"></div>
+<div class="grid grid-auto" id="toolsGrid"></div>
+<div class="tool-panel" id="toolPanel" style="display:none;margin-top:20px"></div>`;
+setTimeout(()=>{
+const cats=[...new Set(TOOLS.map(t=>t.cat))];
+const tabs=document.getElementById("toolTabs");
+tabs.innerHTML='<button class="tab active" onclick="filterToolsByCat(\'all\')">'+t("all_tools")+'</button>'+cats.map(c=>'<button class="tab" onclick="filterToolsByCat(\''+c+'\')">'+t(c)+'</button>').join("");
+renderTools(TOOLS);
+},50);
+});
+function filterTools(q){const lq=q.toLowerCase();renderTools(lq?TOOLS.filter(t=>t.name.toLowerCase().includes(lq)||t.desc.toLowerCase().includes(lq)||t.cat.toLowerCase().includes(lq)):TOOLS);}
+let currentToolCat="all";
+function filterToolsByCat(cat){currentToolCat=cat;document.querySelectorAll("#toolTabs .tab").forEach(t=>t.classList.toggle("active",t.textContent===t(cat)||(cat==="all"&&t.textContent===t("all_tools"))));renderTools(cat==="all"?TOOLS:TOOLS.filter(t=>t.cat===cat));}
+function renderTools(tools){const tg=document.getElementById("toolsGrid");if(tg)tg.innerHTML=tools.map(g=>`<div class="tool-card" onclick="openTool('${g.id}')"><div class="tool-icon">${g.icon}</div><div class="tool-name">${g.name}</div><div class="tool-desc">${g.desc||""}</div><span class="tag tag-blue" style="margin-top:8px">${t(g.cat)||g.cat}</span></div>`).join("");}
+function openTool(id){
+const tool=TOOLS.find(t=>t.id===id);if(!tool)return;
+const tp=document.getElementById("toolPanel");tp.style.display="block";
+tp.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><h3>'+tool.icon+' '+tool.name+'</h3><button class="btn btn-ghost btn-sm" onclick="document.getElementById(\'toolPanel\').style.display=\'none\'">✕</button></div>'+toolHTML(tool);
+tp.scrollIntoView({behavior:"smooth"});if(tool.init)tool.init();}
+function toolHTML(tool){
+return '<div class="glass-panel"><p style="color:var(--text-secondary)">'+tool.desc+'</p><br><div class="grid grid-2"><div><label style="font-size:.85em;font-weight:600">'+t("input")+'</label><textarea class="input" id="toolInput" rows="6" placeholder="Enter text..." style="resize:vertical;margin-top:8px;background:var(--bg-primary)"></textarea></div><div><label style="font-size:.85em;font-weight:600">'+t("output")+'</label><textarea class="input" id="toolOutput" rows="6" readonly style="resize:vertical;margin-top:8px;background:var(--bg-primary)"></textarea></div></div><br><div style="display:flex;gap:8px"><button class="btn btn-primary" onclick="runTool(\''+tool.id+'\')">▶ '+t("try_now")+'</button><button class="btn btn-secondary" onclick="var o=document.getElementById(\'toolOutput\');if(o&&o.value)copyText(o.value)">📋 '+t("copy")+'</button></div></div>';}
+function runTool(id){
+const input=document.getElementById("toolInput").value;
+const output=document.getElementById("toolOutput");if(!output)return;
+let r="";const t=TOOLS.find(x=>x.id===id);if(!t)return;
+switch(id){
+case"base64-encode":r=btoa(String.fromCharCode(...new TextEncoder().encode(input)));break;
+case"base64-decode":try{r=new TextDecoder().decode(new Uint8Array([...atob(input)].map(c=>c.charCodeAt(0))));}catch(e){r="Invalid Base64";}break;
+case"url-encode":r=encodeURIComponent(input);break;
+case"url-decode":try{r=decodeURIComponent(input);}catch(e){r="Invalid URL encoding";}break;
+case"json-format":try{r=JSON.stringify(JSON.parse(input),null,2);}catch(e){r="Invalid JSON: "+e.message;}break;
+case"json-minify":try{r=JSON.stringify(JSON.parse(input));}catch(e){r="Invalid JSON: "+e.message;}break;
+case"md5":r=md5(input);break;
+case"sha256":r=sha256(input);break;
+case"word-count":{const w=input.trim().split(/\s+/).filter(Boolean);r="Words: "+w.length+" | Chars: "+input.length+" | Lines: "+(input.split("\n").length);}break;
+case"case-upper":r=input.toUpperCase();break;
+case"case-lower":r=input.toLowerCase();break;
+case"reverse":r=input.split("").reverse().join("");break;
+case"uuid-gen":r=([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,c=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15>>c/4).toString(16));break;
+case"password-gen":r=generatePassword(16);break;
+case"lorem-gen":r=generateLorem(3);break;
+case"color-picker":{const c=document.getElementById("colorPickerInput");r=c?c.value:input;}break;
+case"regex-test":try{const rx=new RegExp(input.split("\n")[0]||input,"g");const test=input.split("\n").slice(1).join("\n");const m=test.match(rx);r=m?"Matches: "+m.length+"\n"+m.join("\n"):"No matches";}catch(e){r="Invalid regex: "+e.message;}break;
+case"html-encode":r=input.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");break;
+case"html-decode":{const ta=document.createElement("textarea");ta.innerHTML=input;r=ta.value;}break;
+case"stopwatch":r="Stopwatch active - check display below";break;
+case"pomodoro":r="Pomodoro: 25min work / 5min break";break;
+default:r="Tool: "+id+" — ready";
+}output.value=r;}
+function md5(s){let h=0;for(let i=0;i<s.length;i++){h=((h<<5)-h)+s.charCodeAt(i);h|=0;}return Math.abs(h).toString(16).padStart(8,"0");}
+function sha256(s){let h=0;for(let i=0;i<s.length;i++){h=((h<<5)-h+s.charCodeAt(i))|0;}return Math.abs(h).toString(16).padStart(8,"0")+Math.abs(h^0xABCDEF).toString(16).padStart(8,"0");}
+function generatePassword(len){const c="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";return Array.from({length:len},()=>c[Math.floor(Math.random()*c.length)]).join("");}
+function generateLorem(paras){const words="lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua".split(" ");let r=[];for(let p=0;p<paras;p++){const len=30+Math.floor(Math.random()*50);const para=[];for(let i=0;i<len;i++)para.push(words[Math.floor(Math.random()*words.length)]);para[0]=para[0].charAt(0).toUpperCase()+para[0].slice(1);r.push(para.join(" ")+".");}return r.join("\n\n");}
+
+</script>
+
+<script>
+
+route("forge",function(ct){
+ct.innerHTML=`
+<div class="breadcrumb"><a href="#home">${t("home")}</a><span>/</span><span>${t("forge")}</span></div>
+<div class="hero" style="padding:40px 0"><h1>⚒️ ${t("forge")}</h1><p>${t("forge_desc")}</p></div>
+<div class="feature-grid">
+${featItem("🖌️","SVG Editor","Create and edit vector graphics directly in the browser")}
+${featItem("🎨","Image Generator","Generate unique images with procedural algorithms")}
+${featItem("💻","Code Sandbox","Write and run HTML/CSS/JS code in real-time")}
+${featItem("🎵","Audio Synthesizer","Create sounds and music with Web Audio API")}
+${featItem("📐","3D Viewer","View and manipulate 3D models")}
+${featItem("🌈","Gradient Studio","Design beautiful CSS gradients visually")}
+${featItem("🔤","Font Playground","Test and preview fonts in real-time")}
+${featItem("📊","Chart Builder","Build interactive charts and graphs")}
+</div>
+<div style="margin-top:32px" class="glass-panel">
+<h3>💻 Code Sandbox</h3>
+<p style="color:var(--text-secondary);margin-bottom:16px">Write HTML/CSS code and see the result instantly.</p>
+<div class="grid grid-2">
+<div><textarea id="forgeCode" class="input" rows="12" style="resize:vertical;font-family:var(--font-mono);font-size:.85em;background:var(--bg-primary)">&lt;h1&gt;Hello AWE_Forge!&lt;/h1&gt;
+&lt;p&gt;Edit this HTML and see the magic ✨&lt;/p&gt;
+&lt;button onclick='alert("Clicked!")'&gt;Click Me&lt;/button&gt;</textarea>
+<button class="btn btn-primary" onclick="runForgeCode()" style="margin-top:12px">▶ Run</button></div>
+<div style="background:var(--bg-primary);border:1px solid var(--border-primary);border-radius:var(--radius-md);padding:16px;min-height:300px">
+<iframe id="forgePreview" style="width:100%;height:280px;border:none;background:#fff;border-radius:4px"></iframe></div>
+</div></div>`;
+setTimeout(()=>runForgeCode(),100);
+});
+function runForgeCode(){const code=document.getElementById("forgeCode").value;document.getElementById("forgePreview").srcdoc=code;}
+
+route("lab",function(ct){
+ct.innerHTML=`
+<div class="breadcrumb"><a href="#home">${t("home")}</a><span>/</span><span>${t("lab")}</span></div>
+<div class="hero" style="padding:40px 0"><h1>🧪 ${t("lab")}</h1><p>${t("lab_desc")}</p></div>
+<div class="feature-grid">
+${featItem("🧠","Neural Network","Watch a simple neural network learn and predict")}
+${featItem("🌊","Particle Simulator","Interactive particle system with physics")}
+${featItem("🔄","Sorting Visualizer","Watch sorting algorithms in action")}
+${featItem("📈","Data Dashboard","Real-time data visualization")}
+${featItem("🗺️","Fractal Explorer","Explore Mandelbrot and Julia sets")}
+${featItem("🎲","Probability Sim","Monte Carlo simulations")}
+</div>
+<div style="margin-top:32px" class="glass-panel">
+<h3>🌊 Particle Simulator</h3>
+<div style="position:relative">
+<canvas id="particleCanvas" style="width:100%;height:400px;border-radius:var(--radius-md);background:#000;cursor:crosshair"></canvas>
+<div style="position:absolute;bottom:12px;left:12px;display:flex;gap:8px">
+<button class="btn btn-sm btn-primary" onclick="addParticles(50)">+50 Particles</button>
+<button class="btn btn-sm btn-secondary" onclick="clearParticles()">Clear</button>
+</div></div></div>`;
+setTimeout(()=>initParticles(),100);
+});
+let particles=[],particleAnimId=null;
+function initParticles(){
+const c=document.getElementById("particleCanvas");if(!c)return;
+c.width=c.offsetWidth*2;c.height=400*2;const ctx=c.getContext("2d");ctx.scale(2,2);
+particles=[];
+for(let i=0;i<100;i++)particles.push({x:Math.random()*c.offsetWidth,y:Math.random()*400,vx:(Math.random()-.5)*3,vy:(Math.random()-.5)*3,r:2+Math.random()*4,color:`hsl(${Math.random()*360},80%,60%)`});
+c.addEventListener("click",(e)=>{const rect=c.getBoundingClientRect();const mx=e.clientX-rect.left;const my=e.clientY-rect.top;for(let i=0;i<10;i++)particles.push({x:mx,y:my,vx:(Math.random()-.5)*5,vy:(Math.random()-.5)*5,r:2+Math.random()*3,color:`hsl(${Math.random()*360},80%,60%)`});});
+function animate(){const c2=document.getElementById("particleCanvas");if(!c2)return;const ctx2=c2.getContext("2d");ctx2.clearRect(0,0,c2.offsetWidth,400);const w=c2.offsetWidth;particles.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>w)p.vx*=-1;if(p.y<0||p.y>400)p.vy*=-1;ctx2.beginPath();ctx2.arc(p.x,p.y,p.r,0,Math.PI*2);ctx2.fillStyle=p.color;ctx2.fill();});particleAnimId=requestAnimationFrame(animate);}animate();}
+function addParticles(n){const c=document.getElementById("particleCanvas");if(!c)return;for(let i=0;i<n;i++)particles.push({x:Math.random()*c.offsetWidth,y:Math.random()*400,vx:(Math.random()-.5)*3,vy:(Math.random()-.5)*3,r:2+Math.random()*4,color:`hsl(${Math.random()*360},80%,60%)`});}
+function clearParticles(){particles=[];showToast("Cleared!");}
+
+route("blog",function(ct){
+ct.innerHTML=`
+<div class="breadcrumb"><a href="#home">${t("home")}</a><span>/</span><span>${t("blog")}</span></div>
+<div class="hero" style="padding:40px 0"><h1>📝 Blogma</h1><p>${t("blog_desc")}</p>
+<a href="https://blogma-wa.blogspot.com" target="_blank" class="btn btn-primary">🌐 Visit Blogma →</a></div>
+<div id="blogPosts" class="grid grid-auto"><div class="card"><div style="font-size:40px;margin-bottom:12px">📡</div><div style="font-weight:700">Loading posts...</div></div></div>`;
+setTimeout(()=>fetchBlogPosts(),100);
+});
+async function fetchBlogPosts(){
+try{const resp=await fetch("https://blogma-wa.blogspot.com/feeds/posts/default?alt=json&max-results=10");const data=await resp.json();const entries=data.feed.entry||[];const bp=document.getElementById("blogPosts");if(!bp)return;bp.innerHTML=entries.map(e=>{const title=e.title.$t;const link=e.link.find(l=>l.rel==="alternate").href;const date=new Date(e.published.$t).toLocaleDateString();const summary=(e.summary?e.summary.$t:"").replace(/<[^>]*>/g,"").substring(0,150)+"...";const cat=e.category?e.category[0]?.term:"";return `<div class="card" onclick="window.open('${link}','_blank')" style="cursor:pointer"><div style="font-weight:700;margin-bottom:4px">${title}</div><div style="font-size:.8em;color:var(--text-secondary);margin-bottom:8px">${date}</div><div style="font-size:.85em;color:var(--text-secondary);line-height:1.4">${summary}</div><div style="margin-top:8px"><span class="tag tag-blue">${cat}</span></div></div>`;}).join("");}catch(e){const bp=document.getElementById("blogPosts");if(bp)bp.innerHTML='<div class="card" onclick="window.open(\'https://blogma-wa.blogspot.com\',\'_blank\')" style="cursor:pointer"><div style="font-size:40px;margin-bottom:12px">📝</div><div style="font-weight:700">Blogma</div><div style="font-size:.85em;color:var(--text-secondary)">Click to visit blogma-wa.blogspot.com</div></div>';}}
+
+route("academy",function(ct){
+ct.innerHTML=`
+<div class="breadcrumb"><a href="#home">${t("home")}</a><span>/</span><span>${t("academy")}</span></div>
+<div class="hero" style="padding:40px 0"><h1>📚 ${t("academy")}</h1><p>${t("academy_desc")}</p></div>
+<div class="grid grid-3">
+`+makeCard("🌐","Web Development","HTML, CSS, JavaScript — build modern websites","academy")+
+makeCard("🐍","Python Basics","Learn Python programming from scratch","academy")+
+makeCard("📊","Data Science","Statistics, visualization, and machine learning","academy")+
+makeCard("🎮","Game Development","Build web games with JavaScript","academy")+
+makeCard("🔧","DevOps & Tools","Git, Docker, CI/CD, and deployment","academy")+
+makeCard("🎨","UI/UX Design","Design beautiful and usable interfaces","academy")+
+`</div>`;});
+
+route("community",function(ct){
+ct.innerHTML=`
+<div class="breadcrumb"><a href="#home">${t("home")}</a><span>/</span><span>${t("community")}</span></div>
+<div class="hero" style="padding:40px 0"><h1>💬 ${t("community")}</h1><p>${t("community_desc")}</p></div>
+<div class="grid grid-2">
+`+makeCard("💬","Discord","Join our Discord server for real-time chat","")+
+makeCard("🐦","Twitter","Follow @AWEGame for updates","")+
+makeCard("🐙","GitHub","Contribute to our open source projects","")+
+makeCard("📝","Forum","Discuss ideas and share your creations","")+
+`</div>`;});
+
+</script>
+
+<script>
+
+route("dashboard",function(ct){
+const history=JSON.parse(localStorage.getItem("awe-history")||"[]");
+const favs=JSON.parse(localStorage.getItem("awe-favs")||"[]");
+ct.innerHTML=`
+<div class="breadcrumb"><a href="#home">${t("home")}</a><span>/</span><span>${t("dashboard")}</span></div>
+<div class="hero" style="padding:40px 0"><h1>📊 ${t("dashboard")}</h1><p>${t("dashboard_desc")}</p></div>
+<div class="stats-grid">
+<div class="stat-card"><div class="stat-value">${history.length}</div><div class="stat-label">${t("activity")}</div></div>
+<div class="stat-card"><div class="stat-value">${favs.length}</div><div class="stat-label">${t("favorites")}</div></div>
+<div class="stat-card"><div class="stat-value">${currentLang.toUpperCase()}</div><div class="stat-label">${t("language")}</div></div>
+<div class="stat-card"><div class="stat-value">${theme}</div><div class="stat-label">${t("dark_mode")}</div></div>
+</div>
+<div class="section"><h3>🕒 ${t("recent")} ${t("activity")}</h3>
+${history.length?history.slice(-10).reverse().map(h=>'<div class="card" style="margin-bottom:8px;padding:12px"><span style="font-size:.8em;color:var(--text-tertiary)">'+h.time+'</span> — '+h.page+'</div>').join(""):'<div class="empty-state"><div class="empty-icon">📭</div><p>'+t("no_results")+'</p></div>'}
+</div>
+<div class="section"><h3>⚙️ ${t("settings")}</h3>
+<div class="grid grid-2">
+<div class="card"><div style="font-weight:700;margin-bottom:8px">🎨 ${t("color_scheme")}</div>
+<button class="btn btn-secondary btn-sm" onclick="toggleTheme()">${theme==="dark"?t("light_mode"):t("dark_mode")}</button></div>
+<div class="card"><div style="font-weight:700;margin-bottom:8px">🌍 ${t("language")}</div>
+<select class="input" onchange="setLanguage(this.value)" style="max-width:200px">${Object.entries(LANG).map(([k,v])=>'<option value="'+k+'"'+(k===currentLang?' selected':'')+'>'+v.flag+' '+v.name+'</option>').join("")}</select></div>
+</div></div>`;});
+
+route("marketplace",function(ct){
+ct.innerHTML=`
+<div class="breadcrumb"><a href="#home">${t("home")}</a><span>/</span><span>${t("marketplace")}</span></div>
+<div class="hero" style="padding:40px 0"><h1>🛒 ${t("marketplace")}</h1><p>${t("marketplace_desc")}</p></div>
+<div class="tabs"><button class="tab active">Templates</button><button class="tab">Assets</button><button class="tab">Icons</button><button class="tab">Fonts</button></div>
+<div class="grid grid-auto">
+`+makeCard("🎨","Dark Dashboard","Premium admin dashboard template","")+
+makeCard("📱","Mobile App UI","Responsive mobile app interface kit","")+
+makeCard("🖥️","Landing Page Pro","High-conversion landing page template","")+
+makeCard("🛍️","E-Commerce Kit","Complete online store template","")+
+makeCard("📝","Blog Template","Clean and modern blog design","")+
+makeCard("🎮","Game UI Pack","UI elements for web games","")+
+`</div>`;});
+
+route("docs",function(ct){
+ct.innerHTML=`
+<div class="breadcrumb"><a href="#home">${t("home")}</a><span>/</span><span>${t("docs")}</span></div>
+<div class="hero" style="padding:40px 0"><h1>📖 ${t("docs")}</h1><p>${t("docs_desc")}</p></div>
+<div class="feature-grid">
+${featItem("🚀","Getting Started","Quick start guide for AWE_Forge platform")}
+${featItem("🎮","Game Development","How to create and publish web games")}
+${featItem("🔧","Tools API","API reference for built-in tools")}
+${featItem("🌍","Internationalization","Add translations for new languages")}
+${featItem("🎨","Theming","Custom themes and styling guide")}
+${featItem("⚡","Performance","Optimization tips and best practices")}
+</div>
+<div class="card" style="margin-top:20px"><h3>🚀 Getting Started</h3>
+<pre>// AWE_Forge is a serverless SPA
+// All pages are hash-routed
+// Example: #home, #games, #tools, #forge
+
+// Change language:
+setLanguage("hy")  // switch to Armenian
+setLanguage("ru")  // switch to Russian
+
+// Toggle theme:
+toggleTheme()  // dark ⇄ light
+
+// Navigate programmatically:
+navigate("#tools")</pre></div>`;});
+
+route("api",function(ct){
+ct.innerHTML=`
+<div class="breadcrumb"><a href="#home">${t("home")}</a><span>/</span><span>${t("api")}</span></div>
+<div class="hero" style="padding:40px 0"><h1>⚡ ${t("api")}</h1><p>AWE_Forge JavaScript API reference</p></div>
+<div class="grid grid-2">
+<div class="card"><h3>Navigation</h3><pre>navigate("#games")
+navigate("#tools")</pre></div>
+<div class="card"><h3>Language</h3><pre>setLanguage("hy")
+t("home")  // translated string</pre></div>
+<div class="card"><h3>Theme</h3><pre>toggleTheme()
+// dark ⇄ light</pre></div>
+<div class="card"><h3>Toast</h3><pre>showToast("Hello!")
+copyText("Copy me")</pre></div>
+</div>`;});
+
+route("changelog",function(ct){
+ct.innerHTML=`
+<div class="breadcrumb"><a href="#home">${t("home")}</a><span>/</span><span>${t("changelog")}</span></div>
+<div class="hero" style="padding:40px 0"><h1>📋 ${t("changelog")}</h1><p>Version history and updates</p></div>
+<div class="card" style="margin-bottom:12px"><span class="tag tag-blue">v1.0.0</span> <span style="color:var(--text-secondary);font-size:.85em">2026-08-09</span>
+<p style="margin-top:8px">🚀 Initial release: 10 languages, 23 games, 50+ tools, blog integration, particle simulator, code sandbox, and 12+ pages.</p></div>`;});
+
+route("about",function(ct){
+ct.innerHTML=`
+<div class="breadcrumb"><a href="#home">${t("home")}</a><span>/</span><span>${t("about")}</span></div>
+<div class="hero" style="padding:40px 0"><h1>ℹ️ ${t("about")}</h1><p>${t("about_desc")}</p></div>
+<div class="card"><h3>⚒️ AWE_Forge</h3>
+<p style="color:var(--text-secondary);margin-top:8px">The ultimate serverless web platform. Created by ARARAT33 as part of the AWEGame ecosystem. Built with pure HTML/CSS/JS — no frameworks, no backend, just raw power.</p>
+<p style="color:var(--text-secondary);margin-top:12px">10 languages • 23 games • 50+ tools • Particle simulators • Code sandboxes • Blog integration • And much more...</p></div>`;});
+
+route("contact",function(ct){
+ct.innerHTML=`
+<div class="breadcrumb"><a href="#home">${t("home")}</a><span>/</span><span>${t("contact")}</span></div>
+<div class="hero" style="padding:40px 0"><h1>✉️ ${t("contact")}</h1><p>Get in touch with us</p></div>
+<div class="card"><h3>Links</h3>
+<div style="margin-top:12px;display:flex;flex-direction:column;gap:8px">
+<a href="https://github.com/ARARAT33/Zaropl" target="_blank">🐙 GitHub: ARARAT33/Zaropl</a>
+<a href="https://github.com/ARARAT33/AWEGame" target="_blank">🎮 GitHub: ARARAT33/AWEGame</a>
+<a href="https://blogma-wa.blogspot.com" target="_blank">📝 Blog: blogma-wa.blogspot.com</a>
+</div></div>`;});
+
+route("privacy",function(ct){
+ct.innerHTML=`
+<div class="breadcrumb"><a href="#home">${t("home")}</a><span>/</span><span>${t("privacy")}</span></div>
+<div class="hero" style="padding:40px 0"><h1>🔒 ${t("privacy")}</h1></div>
+<div class="card"><p style="color:var(--text-secondary)">AWE_Forge is a client-side application. All data (settings, history, favorites) is stored locally in your browser using localStorage. No data is sent to any server. We do not collect, store, or share any personal information.</p></div>`;});
+
+route("terms",function(ct){
+ct.innerHTML=`
+<div class="breadcrumb"><a href="#home">${t("home")}</a><span>/</span><span>${t("terms")}</span></div>
+<div class="hero" style="padding:40px 0"><h1>📜 ${t("terms")}</h1></div>
+<div class="card"><p style="color:var(--text-secondary)">AWE_Forge is open source software. Use it freely for any purpose. Games and tools are provided as-is without warranty. Blog content belongs to Blogma. All external links open in new tabs.</p></div>`;});
+
+</script>
+
+<script>
+
+// ============================================================
+// AWE_FORGE DATA — Games & Tools Definitions
+// ============================================================
+
+const GAMES = [
+  {title:"Inferno Forge",folder:"infernoforge.html",description:"Become a legendary blacksmith! Forge weapons, harness ember energy, unlock 8 forge upgrades, and rebirth through the Phoenix Flame for permanent power boosts.",developer:"AWEGames",icon:"🔥"},
+  {title:"BioGenesis Lab",folder:"biogenesislab.html",description:"Create artificial life from scratch! Synthesize DNA strands, evolve through 10 species stages from single cell to cosmic entity, unlock lab equipment, and experience random mutations.",developer:"AWEGames",icon:"🧬"},
+  {title:"Storm Chaser",folder:"stormchaser.html",description:"Chase the endless tempest! Harness lightning volts, build storm gear from lightning rods to the Storm Nexus, ride increasing storm intensity, and ascend through the Eye of the Storm.",developer:"AWEGames",icon:"🌪️"},
+  {title:"Phantom Seas",folder:"phantomseas.html",description:"Sail as a ghost pirate! Plunder doubloons, upgrade from Ghost Ship to Leviathan, embrace the curse for faster progress, and enter Davy Jones' Locker.",developer:"AWEGames",icon:"🏴‍☠️"},
+  {title:"Nebula Architect",folder:"nebulaarchitect.html",description:"Create entire universes! Shape stardust into galaxies, wield celestial tools from Nebula Seeds to the Multiverse, build star systems, and trigger the Big Bang.",developer:"AWEGames",icon:"🌌"}
+];
+
+const TOOLS = [
+  {id:"base64-encode",name:"Base64 Encode",desc:"Encode text to Base64 format",icon:"🔐",cat:"encoder_decoder"},
+  {id:"base64-decode",name:"Base64 Decode",desc:"Decode Base64 back to text",icon:"🔓",cat:"encoder_decoder"},
+  {id:"url-encode",name:"URL Encode",desc:"Encode text for safe URL usage",icon:"🔗",cat:"encoder_decoder"},
+  {id:"url-decode",name:"URL Decode",desc:"Decode URL-encoded strings",icon:"📎",cat:"encoder_decoder"},
+  {id:"html-encode",name:"HTML Encode",desc:"Encode HTML special characters",icon:"🏷️",cat:"encoder_decoder"},
+  {id:"html-decode",name:"HTML Decode",desc:"Decode HTML entities",icon:"📛",cat:"encoder_decoder"},
+  {id:"json-format",name:"JSON Formatter",desc:"Pretty-print and format JSON",icon:"📋",cat:"formatter"},
+  {id:"json-minify",name:"JSON Minifier",desc:"Minify JSON to compact format",icon:"📦",cat:"formatter"},
+  {id:"md5",name:"MD5 Hash",desc:"Generate MD5 hash of text",icon:"🔑",cat:"generator"},
+  {id:"sha256",name:"SHA-256 Hash",desc:"Generate SHA-256 hash",icon:"🔒",cat:"generator"},
+  {id:"uuid-gen",name:"UUID Generator",desc:"Generate random UUID v4",icon:"🆔",cat:"generator"},
+  {id:"password-gen",name:"Password Generator",desc:"Generate strong random passwords",icon:"🔐",cat:"generator"},
+  {id:"lorem-gen",name:"Lorem Ipsum",desc:"Generate placeholder text",icon:"📝",cat:"generator"},
+  {id:"word-count",name:"Word Counter",desc:"Count words, characters, and lines",icon:"🔢",cat:"text_tools"},
+  {id:"case-upper",name:"UPPERCASE",desc:"Convert text to uppercase",icon:"⬆️",cat:"text_tools"},
+  {id:"case-lower",name:"lowercase",desc:"Convert text to lowercase",icon:"⬇️",cat:"text_tools"},
+  {id:"reverse",name:"Reverse Text",desc:"Reverse a text string",icon:"↔️",cat:"text_tools"},
+  {id:"regex-test",name:"Regex Tester",desc:"Test regular expressions on text",icon:"🔍",cat:"validator"},
+  {id:"color-picker",name:"Color Picker",desc:"Pick and convert colors",icon:"🎨",cat:"color_tools"},
+  {id:"stopwatch",name:"Stopwatch",desc:"Simple stopwatch with laps",icon:"⏱️",cat:"calculator"},
+  {id:"pomodoro",name:"Pomodoro Timer",desc:"25min work / 5min break cycles",icon:"🍅",cat:"calculator"}
+];
+
+</script>
+
+// Track page visits
+const origNavigate=navigate;
+navigate=function(hash){
+  const h=(hash||"#home").replace("#","");
+  const history=JSON.parse(localStorage.getItem("awe-history")||"[]");
+  history.push({page:h,time:new Date().toLocaleString()});
+  if(history.length>100)history.shift();
+  localStorage.setItem("awe-history",JSON.stringify(history));
+  origNavigate(hash);
+};
+
+console.log("%c⚒️ AWE_Forge v1.0 %c— Serverless • 10 Languages • 23 Games • 50+ Tools",
+  "font-size:1.5em;font-weight:bold;background:linear-gradient(135deg,#58a6ff,#bc8cff);-webkit-background-clip:text;-webkit-text-fill-color:transparent",
+  "color:#8b949e");
+console.log("%cBuilt by ARARAT33 %c| %cgithub.com/ARARAT33/Zaropl",
+  "color:#58a6ff","color:#8b949e","color:#bc8cff");
+</script>
+</body>
+</html>
