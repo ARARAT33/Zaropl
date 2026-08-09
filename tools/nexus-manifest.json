@@ -1,0 +1,22 @@
+{
+  "version": "4.0.0-mega",
+  "total_lines": 701248,
+  "total_files": 14,
+  "size_mb": 41,
+  "batches": [
+    "nexus-batch-0001.js (50,048 lines / 1.45 MB)",
+    "nexus-batch-0002.js (50,178 lines / 1.45 MB)",
+    "nexus-batch-0003.js (50,212 lines / 1.45 MB)",
+    "nexus-batch-0004.js (49,924 lines / 1.44 MB)",
+    "nexus-batch-0005.js (50,098 lines / 1.45 MB)",
+    "nexus-batch-0006.js (49,878 lines / 1.44 MB)",
+    "nexus-batch-0007.js (50,334 lines / 1.45 MB)",
+    "nexus-batch-0008.js (50,014 lines / 1.44 MB)",
+    "nexus-batch-0009.js (50,202 lines / 1.45 MB)",
+    "nexus-batch-0010.js (50,104 lines / 1.45 MB)",
+    "nexus-batch-0011.js (49,768 lines / 1.43 MB)",
+    "nexus-batch-0012.js (50,208 lines / 1.45 MB)",
+    "nexus-batch-0013.js (50,108 lines / 1.45 MB)",
+    "nexus-batch-0014.js (50,172 lines / 1.45 MB)"
+  ]
+}
