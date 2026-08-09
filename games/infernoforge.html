@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inferno Forge — Endless Blacksmith</title>
+<style>
+:root{--bg:#0d0d0d;--panel:rgba(20,10,5,.88);--accent:#ff6a00;--accent2:#ff3d00;--gold:#fbbf24;--text:#f5f0e8;--muted:#b0a090}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:radial-gradient(ellipse at 50% 20%,#2a1200 0%,#0a0500 70%,#000 100%);color:var(--text);min-height:100vh;overflow-x:hidden;user-select:none}
+canvas#emberCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+.wrapper{position:relative;z-index:1;max-width:800px;margin:0 auto;padding:12px}
+header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:10px 16px;background:var(--panel);backdrop-filter:blur(16px);border-radius:16px;border:1px solid rgba(255,106,0,.2);margin-bottom:16px}
+.back-btn{display:flex;align-items:center;gap:6px;color:var(--muted);text-decoration:none;font-size:13px;font-weight:600;transition:color .2s}
+.back-btn:hover{color:var(--accent)}
+.back-btn svg{width:16px;height:16px}
+.title-group{text-align:center}
+.title-group h1{font-size:22px;font-weight:800;background:linear-gradient(135deg,#ff6a00,#ff3d00,#fbbf24);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.5px}
+.title-group span{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
+.header-right{display:flex;align-items:center;gap:8px}
+.lang-select{background:rgba(255,255,255,.06);border:1px solid rgba(255,106,0,.25);color:var(--text);padding:6px 10px;border-radius:10px;font-size:12px;cursor:pointer;outline:none}
+.lang-select:focus{border-color:var(--accent)}
+.sound-btn{width:34px;height:34px;border-radius:10px;border:1px solid rgba(255,106,0,.25);background:rgba(255,255,255,.06);color:var(--accent);cursor:pointer;font-size:16px;transition:all .2s}
+.sound-btn:hover{background:rgba(255,106,0,.15)}
+.resource-panel{background:var(--panel);backdrop-filter:blur(16px);border-radius:16px;border:1px solid rgba(255,106,0,.2);padding:16px 20px;text-align:center;margin-bottom:16px}
+.resource-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted)}
+.resource-amount{font-size:42px;font-weight:800;background:linear-gradient(180deg,#ff9d3c,#ff6a00);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.resource-rate{font-size:12px;color:var(--muted);margin-top:2px}
+.forge-btn-wrap{text-align:center;margin-bottom:20px}
+.forge-btn{width:140px;height:140px;border-radius:50%;background:radial-gradient(circle at 40% 40%,#ff6a00,#8b2500);border:4px solid #ff9d3c;box-shadow:0 0 40px rgba(255,106,0,.4),0 0 80px rgba(255,61,0,.2),inset 0 0 60px rgba(255,200,100,.1);cursor:pointer;transition:all .15s;position:relative}
+.forge-btn:active{transform:scale(.92);box-shadow:0 0 80px rgba(255,106,0,.7),0 0 120px rgba(255,61,0,.4)}
+.forge-btn .hammer{font-size:50px;transition:transform .1s}
+.forge-btn:active .hammer{transform:rotate(-30deg)}
+.forge-btn .click-hint{display:block;font-size:11px;color:rgba(255,255,255,.7);margin-top:4px;font-weight:500}
+.temper-bar-wrap{background:var(--panel);border-radius:12px;padding:10px 16px;margin-bottom:16px;border:1px solid rgba(255,106,0,.2)}
+.temper-info{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:4px}
+.temper-bar{height:6px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden}
+.temper-fill{height:100%;background:linear-gradient(90deg,#ff3d00,#ff6a00,#fbbf24);border-radius:3px;transition:width .3s}
+.upgrades-panel{background:var(--panel);backdrop-filter:blur(16px);border-radius:16px;border:1px solid rgba(255,106,0,.2);padding:16px;margin-bottom:16px}
+.section-title{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:10px;letter-spacing:.5px}
+.upgrade-list{display:flex;flex-direction:column;gap:8px;max-height:280px;overflow-y:auto;padding-right:4px}
+.upgrade-list::-webkit-scrollbar{width:4px}
+.upgrade-list::-webkit-scrollbar-thumb{background:rgba(255,106,0,.3);border-radius:2px}
+.upgrade-card{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,106,0,.12);border-radius:10px;padding:10px 12px;cursor:pointer;transition:all .2s}
+.upgrade-card:hover{border-color:rgba(255,106,0,.4);background:rgba(255,106,0,.06)}
+.upgrade-icon{font-size:28px;flex-shrink:0}
+.upgrade-info{flex:1}
+.upgrade-name{font-size:13px;font-weight:600}
+.upgrade-desc{font-size:10px;color:var(--muted);margin-top:1px}
+.upgrade-meta{text-align:right;flex-shrink:0}
+.upgrade-count{font-size:11px;color:var(--muted)}
+.upgrade-cost{font-size:12px;font-weight:700;color:var(--gold)}
+.prestige-panel{background:var(--panel);backdrop-filter:blur(16px);border-radius:16px;border:1px solid rgba(255,106,0,.2);padding:16px;text-align:center}
+.prestige-title{font-size:14px;font-weight:700;color:var(--accent2);margin-bottom:4px}
+.prestige-desc{font-size:11px;color:var(--muted);margin-bottom:8px}
+.prestige-gain{font-size:12px;color:var(--gold);margin-bottom:10px}
+.prestige-btn{padding:10px 28px;background:linear-gradient(135deg,#ff3d00,#ff6a00);border:none;border-radius:25px;color:#fff;font-weight:700;font-size:13px;cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(255,61,0,.3)}
+.prestige-btn:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(255,61,0,.5)}
+.prestige-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+footer{text-align:center;padding:16px;color:var(--muted);font-size:10px}
+@media(max-width:600px){.forge-btn{width:110px;height:110px}.forge-btn .hammer{font-size:38px}.resource-amount{font-size:32px}header{flex-direction:column;align-items:stretch;text-align:center}}
+</style>
+</head>
+<body>
+<canvas id="emberCanvas"></canvas>
+<div class="wrapper">
+<header>
+<a href="../index.html" class="back-btn"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7 7-7m-7 7h18"/></svg><span id="lbl-back">Back to Library</span></a>
+<div class="title-group"><h1>INFERNO FORGE</h1><span id="lbl-subtitle">Endless Blacksmith</span></div>
+<div class="header-right">
+<button class="sound-btn" onclick="toggleSound()" id="soundBtn">🔊</button>
+<select class="lang-select" id="langSelect" onchange="changeLang(this.value)">
+<option value="en">🌐 EN</option><option value="hy">🇦🇲 HY</option><option value="ru">🇷🇺 RU</option><option value="es">🇪🇸 ES</option><option value="fr">🇫🇷 FR</option><option value="de">🇩🇪 DE</option><option value="zh">🇨🇳 ZH</option><option value="ja">🇯🇵 JA</option><option value="it">🇮🇹 IT</option><option value="pt">🇵🇹 PT</option>
+</select>
+</div>
+</header>
+
+<div class="resource-panel">
+<div class="resource-label" id="lbl-resource">Embers</div>
+<div class="resource-amount" id="emberDisplay">0</div>
+<div class="resource-rate" id="rateDisplay">0.0 / sec</div>
+</div>
+
+<div class="forge-btn-wrap">
+<button class="forge-btn" onclick="hitForge(event)" id="forgeBtn"><span class="hammer">🔨</span><span class="click-hint" id="lbl-click">FORGE!</span></button>
+</div>
+
+<div class="temper-bar-wrap" id="temperPanel" style="display:none">
+<div class="temper-info"><span id="lbl-temper">🔥 Temper</span><span id="temperBoost">x1.0</span></div>
+<div class="temper-bar"><div class="temper-fill" id="temperFill" style="width:0%"></div></div>
+</div>
+
+<div class="upgrades-panel">
+<div class="section-title" id="lbl-upgrades">⚒️ UPGRADES</div>
+<div class="upgrade-list" id="upgradeList"></div>
+</div>
+
+<div class="prestige-panel">
+<div class="prestige-title" id="lbl-prestige">🐦‍🔥 Phoenix Rebirth</div>
+<div class="prestige-desc" id="lbl-prestige-desc">Reset all progress. Earn Phoenix Feathers for permanent +25% boost each.</div>
+<div class="prestige-gain" id="prestigeGain">Feathers to gain: 0 🪶</div>
+<button class="prestige-btn" id="prestigeBtn" onclick="doPrestige()" id="lbl-prestige-btn">Rebirth Now</button>
+</div>
+
+<footer>© 2026 AWEGame — Inferno Forge</footer>
+</div>
+
+<script>
+const L=10;
+const LSKEY='infernoforge_save';
+const FORMAT=(n,d=1)=>n<1000?n.toFixed(d):n<1e6?(n/1e3).toFixed(1)+'K':n<1e9?(n/1e6).toFixed(1)+'M':(n/1e9).toFixed(2)+'B';
+
+const T={
+en:{back:'Back to Library',subtitle:'Endless Blacksmith',resource:'Embers',click:'FORGE!',rate:'/ sec',upgrades:'⚒️ UPGRADES',prestige:'🐦‍🔥 Phoenix Rebirth',prestigeDesc:'Reset all progress. Earn Phoenix Feathers for permanent +25% boost each.',prestigeBtn:'Rebirth Now',feathers:'Feathers to gain',temper:'🔥 Temper',save:'Saved locally',items:['Stone Anvil','Iron Hammer','Dragon Bellows','Rune Enchanter','Crystal Forge','Titan Crucible','Soul Anvil','Eternal Flame'],itemDescs:['Sturdy anvil for basic forging','Heavy hammer, more force per strike','Bellows that intensify flame','Enchant weapons with arcane runes','Crystallized forge core','Titan-grade smelting crucible','Anvil forged from souls','An undying flame of power']},
+hy:{back:'Վերադառնալ Գրադարան',subtitle:'Անվերջ Դարբնոց',resource:'Կայծեր',click:'ԿՌԻ՛Ր',rate:'/ վրկ',upgrades:'⚒️ ԲԱՐԵԼԱՎՈՒՄՆԵՐ',prestige:'🐦‍🔥 Փյունիկի Վերածնունդ',prestigeDesc:'Վերակայել ամբողջ առաջընթացը: Ստացիր Փյունիկի Փետուրներ՝ մշտական +25% բոնուս յուրաքանչյուրի համար:',prestigeBtn:'Վերածնվել Հիմա',feathers:'Ստացվելիք փետուրներ',temper:'🔥 Կոփում',save:'Պահպանված է սարքում',items:['Քարե Սալ','Երկաթե Մուրճ','Վիշապի Փուքս','Ռունային Կախարդիչ','Բյուրեղյա Դարբնոց','Տիտանե Հալոցք','Հոգու Սալ','Հավերժական Կրակ'],itemDescs:['Ամուր սալ հիմնական կոփման համար','Ծանր մուրճ, ավելի ուժեղ հարված','Փուքս, որ բոցավառում է կրակը','Զենքերը ռուներով կախարդիր','Բյուրեղացած դարբնոցի միջուկ','Տիտանե դասի հալման կարաս','Հոգիներից կոփված սալ','Անմար զորության կրակ']},
+ru:{back:'← В библиотеку',subtitle:'Бесконечная Кузница',resource:'Угли',click:'КУЙ!',rate:'/ сек',upgrades:'⚒️ УЛУЧШЕНИЯ',prestige:'🐦‍🔥 Возрождение Феникса',prestigeDesc:'Сбросьте прогресс. Получите Перья Феникса для постоянного бонуса +25% каждое.',prestigeBtn:'Возродиться',feathers:'Перьев к получению',temper:'🔥 Закалка',save:'Сохранено локально',items:['Каменная Наковальня','Железный Молот','Меха Дракона','Рунный Чародей','Хрустальная Кузница','Титановый Тигель','Наковальня Душ','Вечное Пламя'],itemDescs:['Прочная наковальня для базовой ковки','Тяжёлый молот, сильнее удар','Меха, усиливающие пламя','Зачаруй оружие рунами','Кристаллическое ядро кузницы','Титановый плавильный тигель','Наковальня, выкованная из душ','Неугасимое пламя силы']},
+es:{back:'← Biblioteca',subtitle:'Forja Infinita',resource:'Brasas',click:'¡FORJA!',rate:'/ seg',upgrades:'⚒️ MEJORAS',prestige:'🐦‍🔥 Renacimiento Fénix',prestigeDesc:'Reinicia el progreso. Gana Plumas de Fénix para +25% permanente cada una.',prestigeBtn:'Renacer Ahora',feathers:'Plumas a ganar',temper:'🔥 Temple',save:'Guardado localmente',items:['Yunque de Piedra','Martillo de Hierro','Fuelle de Dragón','Encantador Rúnico','Forja de Cristal','Crisol Titán','Yunque de Almas','Llama Eterna'],itemDescs:['Yunque robusto para forja básica','Martillo pesado, golpe más fuerte','Fuelle que intensifica la llama','Encanta armas con runas','Núcleo de forja cristalizado','Crisol de fundición titán','Yunque forjado de almas','Llama eterna de poder']},
+fr:{back:'← Bibliothèque',subtitle:'Forge Infinie',resource:'Braises',click:'FORGE!',rate:'/ sec',upgrades:'⚒️ AMÉLIORATIONS',prestige:'🐦‍🔥 Renaissance Phénix',prestigeDesc:'Réinitialisez la progression. Gagnez Plumes de Phénix pour +25% permanent.',prestigeBtn:'Renaître',feathers:'Plumes à gagner',temper:'🔥 Trempe',save:'Sauvegardé',items:['Enclume de Pierre','Marteau de Fer','Soufflet Dragon','Enchanteur Runique','Forge de Cristal','Creuset Titan','Enclume d\'Âmes','Flamme Éternelle'],itemDescs:['Enclume robuste pour forge basique','Marteau lourd, frappe puissante','Soufflet intensifiant la flamme','Enchante les armes avec runes','Noyau de forge cristallisé','Creuset de fusion titan','Enclume forgée d\'âmes','Flamme éternelle de pouvoir']},
+de:{back:'← Bibliothek',subtitle:'Endlose Schmiede',resource:'Glut',click:'SCHMIEDE!',rate:'/ sek',upgrades:'⚒️ VERBESSERUNGEN',prestige:'🐦‍🔥 Phönix-Wiedergeburt',prestigeDesc:'Fortschritt zurücksetzen. Erhalte Phönixfedern für +25% permanent.',prestigeBtn:'Wiedergeboren',feathers:'Federn zu erhalten',temper:'🔥 Härten',save:'Lokal gespeichert',items:['Steinamboss','Eisenhammer','Drachenblasebalg','Runenverzauberer','Kristallschmiede','Titantiegel','Seelenamboss','Ewige Flamme'],itemDescs:['Stabiler Amboss für Grundschmieden','Schwerer Hammer, stärkerer Schlag','Blasebalg verstärkt die Flamme','Waffen mit Runen verzaubern','Kristalliner Schmiedekern','Titan-Schmelztiegel','Aus Seelen geschmiedeter Amboss','Ewige Flamme der Macht']},
+zh:{back:'← 游戏库',subtitle:'无尽铁匠铺',resource:'余烬',click:'锻造!',rate:'/ 秒',upgrades:'⚒️ 升级',prestige:'🐦‍🔥 凤凰重生',prestigeDesc:'重置进度。获得凤凰羽毛，每个+25%永久加成。',prestigeBtn:'立即重生',feathers:'可获得羽毛',temper:'🔥 淬火',save:'本地已保存',items:['石砧','铁锤','龙风箱','符文附魔台','水晶熔炉','泰坦坩埚','灵魂砧','永恒之火'],itemDescs:['坚固的基础锻造砧','重型锤子，更强打击','强化火焰的风箱','用符文附魔武器','结晶化熔炉核心','泰坦级熔炼坩埚','灵魂锻造的砧','不灭的力量之火']},
+ja:{back:'← ライブラリ',subtitle:'無限の鍛冶場',resource:'残り火',click:'鍛造!',rate:'/ 秒',upgrades:'⚒️ アップグレード',prestige:'🐦‍🔥 フェニックス転生',prestigeDesc:'進行度をリセット。フェニックスの羽根で永続+25%ボーナス。',prestigeBtn:'転生する',feathers:'獲得できる羽根',temper:'🔥 焼き入れ',save:'ローカル保存済み',items:['石の金床','鉄のハンマー','竜のふいご','ルーン付与台','水晶の炉','タイタンの坩堝','魂の金床','永遠の炎'],itemDescs:['基本的な鍛造用の頑丈な金床','重いハンマー、より強力な打撃','炎を強めるふいご','ルーンで武器を付与','結晶化した炉心','タイタン級溶解坩堝','魂から鍛えられた金床','不滅の力の炎']},
+it:{back:'← Libreria',subtitle:'Forgia Infinita',resource:'Braci',click:'FORGIA!',rate:'/ sec',upgrades:'⚒️ POTENZIAMENTI',prestige:'🐦‍🔥 Rinascita Fenice',prestigeDesc:'Azzera progressi. Ottieni Piume di Fenice per +25% permanente.',prestigeBtn:'Rinasci Ora',feathers:'Piume da ottenere',temper:'🔥 Tempra',save:'Salvato localmente',items:['Incudine Pietra','Martello Ferro','Mantice Drago','Incantatore Runico','Forgia Cristallo','Crogiolo Titano','Incudine Anime','Fiamma Eterna'],itemDescs:['Incudine robusta per forgia base','Martello pesante, colpo forte','Mantice che intensifica fiamma','Incanta armi con rune','Nucleo forgia cristallizzato','Crogiolo fusione titano','Incudine forgiata da anime','Fiamma eterna di potere']},
+pt:{back:'← Biblioteca',subtitle:'Forja Infinita',resource:'Brasas',click:'FORJAR!',rate:'/ seg',upgrades:'⚒️ MELHORIAS',prestige:'🐦‍🔥 Renascimento Fênix',prestigeDesc:'Redefina progresso. Ganhe Penas de Fênix para +25% permanente.',prestigeBtn:'Renacer Agora',feathers:'Penas a ganhar',temper:'🔥 Têmpera',save:'Salvo localmente',items:['Bigorna Pedra','Martelo Ferro','Fole Dragão','Encantador Rúnico','Forja Cristal','Cadinho Titã','Bigorna Almas','Chama Eterna'],itemDescs:['Bigorna robusta para forja básica','Martelo pesado, golpe forte','Fole que intensifica chama','Encanta armas com runas','Núcleo forja cristalizado','Cadinho fusão titã','Bigorna forjada de almas','Chama eterna de poder']}
+};
+const LANGS=['en','hy','ru','es','fr','de','zh','ja','it','pt'];
+const ITEMS=[
+{id:'anvil',baseCost:15,baseEps:0.5},
+{id:'hammer',baseCost:100,baseEps:3},
+{id:'bellows',baseCost:600,baseEps:12},
+{id:'enchanter',baseCost:3000,baseEps:50},
+{id:'crystal',baseCost:15000,baseEps:200},
+{id:'titan',baseCost:80000,baseEps:800},
+{id:'soul',baseCost:400000,baseEps:3500},
+{id:'eternal',baseCost:2e6,baseEps:15000}
+];
+
+let state=loadState();
+let lang=state.lang||'en';
+let temperActive=false,temperTimer=null,temperPower=0;
+let t=T[lang];
+
+function defaultState(){return{embers:0,totalEmbers:0,items:{},feathers:0,totalPurchases:0,lang:'en',soundOn:true};}
+function loadState(){try{let d=localStorage.getItem(LSKEY);return d?{...defaultState(),...JSON.parse(d)}:defaultState();}catch(e){return defaultState();}}
+function saveState(){state.lang=lang;localStorage.setItem(LSKEY,JSON.stringify(state));}
+
+function calcCost(item,count){return Math.floor(item.baseCost*Math.pow(1.15,count));}
+function calcEps(item,count){return item.baseEps*count;}
+function calcGlobalMult(){return 1+state.feathers*0.25;}
+function calcTotalEps(){let t=0;for(let it of ITEMS){let n=state.items[it.id]||0;t+=calcEps(it,n);}return t*calcGlobalMult();}
+
+function buyItem(itemId){
+let it=ITEMS.find(x=>x.id===itemId);
+let owned=state.items[itemId]||0;
+let cost=calcCost(it,owned);
+let globalMult=calcGlobalMult();
+if(state.embers>=cost){
+state.embers-=cost;
+state.items[itemId]=owned+1;
+state.totalPurchases++;
+if(!temperActive&&state.totalPurchases%5===0)activateTemper();
+render();
+saveState();
+}
+}
+
+function activateTemper(){
+temperActive=true;temperPower=0;
+let start=Date.now();
+function tick(){
+if(!temperActive)return;
+let elapsed=(Date.now()-start)/1000;
+temperPower=Math.min(1,elapsed/8);
+let boost=1+temperPower*2;
+document.getElementById('temperPanel').style.display='block';
+document.getElementById('temperFill').style.width=(temperPower*100)+'%';
+document.getElementById('temperBoost').textContent='x'+boost.toFixed(1);
+if(temperPower<1){temperTimer=requestAnimationFrame(tick);}else{endTemper();}
+}
+temperTimer=requestAnimationFrame(tick);
+}
+
+function endTemper(){
+temperActive=false;cancelAnimationFrame(temperTimer);
+document.getElementById('temperPanel').style.display='none';
+temperPower=0;
+}
+
+function hitForge(e){
+let base=1;
+base*=calcGlobalMult();
+if(temperActive&&temperPower>0){base*=(1+temperPower*2);}
+state.embers+=base;state.totalEmbers+=base;
+render();saveState();
+spawnSparks(e);
+}
+
+function doPrestige(){
+let f=Math.floor(Math.log2(state.totalEmbers/1000+1));
+if(f<1)return;
+if(!confirm(t.prestigeBtn+'? '+f+' '+t.feathers))return;
+state.feathers+=f;
+state.embers=0;state.totalEmbers=0;state.items={};state.totalPurchases=0;
+render();saveState();
+}
+
+let canvas,ctx,sparks=[];
+function initCanvas(){canvas=document.getElementById('emberCanvas');ctx=canvas.getContext('2d');canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+function spawnSparks(e){
+let rect=document.getElementById('forgeBtn').getBoundingClientRect();
+let cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;
+for(let i=0;i<12;i++){sparks.push({x:cx,y:cy,vx:(Math.random()-.5)*4,vy:(Math.random()-1)*6,life:1,size:2+Math.random()*4,color:`hsl(${20+Math.random()*30},100%,${50+Math.random()*50}%)`});}
+}
+function animateSparks(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+for(let i=sparks.length-1;i>=0;i--){
+let s=sparks[i];s.x+=s.vx;s.y+=s.vy;s.vy+=0.15;s.life-=0.02;
+if(s.life<=0){sparks.splice(i,1);continue;}
+ctx.globalAlpha=s.life;ctx.fillStyle=s.color;ctx.beginPath();ctx.arc(s.x,s.y,s.size,0,Math.PI*2);ctx.fill();
+}
+ctx.globalAlpha=1;requestAnimationFrame(animateSparks);
+}
+
+function changeLang(l){lang=l;t=T[l];state.lang=l;render();saveState();}
+function toggleSound(){state.soundOn=!state.soundOn;document.getElementById('soundBtn').textContent=state.soundOn?'🔊':'🔇';saveState();}
+
+function render(){
+t=T[lang];
+document.getElementById('lbl-back').textContent=t.back;
+document.getElementById('lbl-subtitle').textContent=t.subtitle;
+document.getElementById('lbl-resource').textContent=t.resource;
+document.getElementById('lbl-click').textContent=t.click;
+document.getElementById('lbl-upgrades').textContent=t.upgrades;
+document.getElementById('lbl-prestige').textContent=t.prestige;
+document.getElementById('lbl-prestige-desc').textContent=t.prestigeDesc;
+document.getElementById('lbl-prestige-btn').textContent=t.prestigeBtn;
+document.getElementById('lbl-temper').textContent=t.temper;
+document.getElementById('emberDisplay').textContent=FORMAT(state.embers);
+document.getElementById('rateDisplay').textContent=FORMAT(calcTotalEps())+t.rate;
+let globalMult=calcGlobalMult();
+let f=Math.floor(Math.log2(state.totalEmbers/1000+1));
+document.getElementById('prestigeGain').textContent=t.feathers+': '+f+' 🪶 (x'+globalMult.toFixed(2)+')';
+document.getElementById('prestigeBtn').disabled=f<1;
+
+let list=document.getElementById('upgradeList');
+list.innerHTML=ITEMS.map((it,i)=>{
+let owned=state.items[it.id]||0;
+let cost=calcCost(it,owned);
+let eps=calcEps(it,owned)*globalMult;
+let canBuy=state.embers>=cost;
+return `<div class="upgrade-card" onclick="buyItem('${it.id}')" style="opacity:${canBuy?'1':'.6'}">
+<div class="upgrade-icon">${['🪨','🔨','💨','✨','💎','⚗️','👻','🔥'][i]}</div>
+<div class="upgrade-info"><div class="upgrade-name">${t.items[i]}</div><div class="upgrade-desc">${t.itemDescs[i]}</div></div>
+<div class="upgrade-meta"><div class="upgrade-count">x${owned}</div><div class="upgrade-cost">🔥 ${FORMAT(cost,0)}</div></div></div>`;
+}).join('');
+}
+
+let gameLoop=setInterval(()=>{
+if(state.embers!==undefined){state.embers+=calcTotalEps()/10;state.totalEmbers+=calcTotalEps()/10;render();saveState();}
+},100);
+
+initCanvas();animateSparks();render();
+window.addEventListener('resize',()=>{if(canvas){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}});
+document.getElementById('langSelect').value=lang;
+</script>
+</body>
+</html>
